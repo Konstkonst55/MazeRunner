@@ -1,6 +1,5 @@
 ﻿
-#include "pch.h"
-#include "framework.h"
+#include "MazeGenerator.h"
 #include <random>
 #include <algorithm>
 
