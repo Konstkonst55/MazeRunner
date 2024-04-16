@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы заголовков\data">
+      <UniqueIdentifier>{c8925cfb-46b8-4b36-9c12-22f904237066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\data">
+      <UniqueIdentifier>{368c7ddf-4490-4236-8382-87a8d0ef5829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -21,6 +27,18 @@
     <ClInclude Include="pch.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="WallStates.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClInclude>
+    <ClInclude Include="WallState.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeGenerator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeSize.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MazeGenerator.cpp">
@@ -28,6 +46,15 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Исходные файлы\data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
