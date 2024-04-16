@@ -1,5 +1,9 @@
 
 #include "Cell.h"
+#include <iostream>
+
+Cell::Cell()
+	: Cell(Point(0, 0)) {}
 
 Cell::Cell(Point point) 
 	: Cell(point, WallStates()) { }
@@ -32,4 +36,8 @@ bool Cell::IsVisited() {
 
 void Cell::SetVisitedState(bool visitedState) {
 	_visited = visitedState;
+}
+
+void Cell::Print() {
+	std::cout << "cell";
 }

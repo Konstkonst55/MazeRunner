@@ -13,6 +13,7 @@ private:
 	bool _visited = false;
 
 public:
+	Cell();
 	Cell(Point);
 	Cell(Point, WallStates);
 	Cell(Point, WallStates, bool);
@@ -23,6 +24,8 @@ public:
 	void SetWalls(WallStates);
 	bool IsVisited();
 	void SetVisitedState(bool);
+
+	void Print();
 };
 
 #endif // CELL_H
