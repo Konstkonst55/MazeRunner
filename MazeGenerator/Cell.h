@@ -22,6 +22,7 @@ public:
 	void SetPosition(Point);
 	WallStates GetWalls();
 	void SetWalls(WallStates);
+	void SetWallState(int, WallState);
 	bool IsVisited();
 	void SetVisitedState(bool);
 

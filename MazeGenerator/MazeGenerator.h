@@ -18,6 +18,7 @@ namespace mg {
 	public:
 		MazeGenerator();
 		MazeGenerator(unsigned int);
+		MazeGenerator(MazeSize);
 		MazeGenerator(unsigned int, MazeSize);
 
 		unsigned int GetSeed();

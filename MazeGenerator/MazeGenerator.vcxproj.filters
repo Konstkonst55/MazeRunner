@@ -16,9 +16,6 @@
     <Filter Include="Файлы заголовков\data">
       <UniqueIdentifier>{c8925cfb-46b8-4b36-9c12-22f904237066}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\data">
-      <UniqueIdentifier>{368c7ddf-4490-4236-8382-87a8d0ef5829}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WallStates.h">
@@ -38,14 +35,14 @@
     <ClCompile Include="MazeGenerator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.h">
-      <Filter>Файлы заголовков\data</Filter>
-    </ClCompile>
     <ClCompile Include="Point.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClCompile>
+    <ClCompile Include="Cell.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClCompile>
     <ClCompile Include="Cell.cpp">
-      <Filter>Исходные файлы\data</Filter>
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
