@@ -2,43 +2,36 @@
 #include "MazeView.h"
 
 void view::Render(std::vector<std::vector<Cell>> maze, sf::RenderWindow& window, const int cellSize) {
-    const int windowWidth = maze[0].size() * cellSize;
-    const int windowHeight = maze.size() * cellSize;
-    const int lineThickness = 2;
+    const int thickness = 2, border = 10;
+    sf::RectangleShape wallShape(sf::Vector2f(cellSize, thickness));
+    wallShape.setFillColor(sf::Color::White);
 
-    sf::RectangleShape line(sf::Vector2f(cellSize, lineThickness));
+    for (auto& row : maze) {
+        for (auto& cell : row) {
+            Point position = cell.GetPosition();
 
-    window.clear();
-
-    for (size_t y = 0; y < maze.size(); y++) {
-        for (size_t x = 0; x < maze[y].size(); x++) {
-            Cell& cell = maze[y][x];
-            const WallStates walls = cell.GetWalls();
-
-            if (walls.top) {
-                line.setPosition(x * cellSize, y * cellSize);
-                window.draw(line);
+            if (cell.GetWalls().top == WallState::Close) {
+                wallShape.setPosition(position.x * cellSize + border, position.y * cellSize + border);
+                window.draw(wallShape);
             }
 
-            if (walls.right) {
-                line.setPosition(x * cellSize, y * cellSize);
-                line.rotate(90);
-                window.draw(line);
-                line.rotate(-90);
+            if (cell.GetWalls().right == WallState::Close) {
+                wallShape.setPosition((position.x + 1) * cellSize + border, position.y * cellSize + border);
+                wallShape.rotate(90);
+                window.draw(wallShape);
+                wallShape.rotate(-90);
             }
 
-            if (walls.bottom) {
-                line.setPosition(x * cellSize, y * cellSize);
-                line.rotate(180);
-                window.draw(line);
-                line.rotate(-180);
+            if (cell.GetWalls().bottom == WallState::Close) {
+                wallShape.setPosition(position.x * cellSize + border, (position.y + 1) * cellSize + border);
+                window.draw(wallShape);
             }
 
-            if (walls.left) {
-                line.setPosition(x * cellSize, y * cellSize);
-                line.rotate(-90);
-                window.draw(line);
-                line.rotate(90);
+            if (cell.GetWalls().left == WallState::Close) {
+                wallShape.setPosition(position.x * cellSize + border, position.y * cellSize + border);
+                wallShape.rotate(90);
+                window.draw(wallShape);
+                wallShape.rotate(-90);
             }
         }
     }
