@@ -3,38 +3,38 @@
 #include <iostream>
 #include <format>
 
-Cell::Cell()
+mg::Cell::Cell()
 	: Cell(Point(0, 0)) {}
 
-Cell::Cell(Point position)
+mg::Cell::Cell(Point position)
 	: Cell(position, WallStates()) { }
 
-Cell::Cell(Point position, WallStates walls)
+mg::Cell::Cell(Point position, WallStates walls)
 	: Cell(position, walls, false) { }
 
-Cell::Cell(Point position, WallStates walls, bool visited)
+mg::Cell::Cell(Point position, WallStates walls, bool visited)
 	: Cell(position, walls, Default, visited) { }
 
-Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
+mg::Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
 	: _position(position), _walls(walls), _type(type), _visited(visited) { }
 
-Point& Cell::GetPosition() {
+mg::Point& mg::Cell::GetPosition() {
 	return _position;
 }
 
-void Cell::SetPosition(Point point) {
+void mg::Cell::SetPosition(Point point) {
 	_position = point;
 }
 
-WallStates& Cell::GetWalls() {
+mg::WallStates& mg::Cell::GetWalls() {
 	return _walls;
 }
 
-void Cell::SetWalls(WallStates walls) {
+void mg::Cell::SetWalls(WallStates walls) {
 	_walls = walls;
 }
 
-void Cell::SetWallState(int id, WallState state) {
+void mg::Cell::SetWallState(int id, WallState state) {
 	switch (id)
 	{
 		case 0: _walls.top = state; break;
@@ -46,23 +46,23 @@ void Cell::SetWallState(int id, WallState state) {
 	}
 }
 
-void Cell::SetType(CellType type) {
+void mg::Cell::SetType(CellType type) {
 	_type = type;
 }
 
-CellType& Cell::GetType(){
+mg::CellType& mg::Cell::GetType(){
 	return _type;
 }
 
-bool Cell::IsVisited() {
+bool mg::Cell::IsVisited() {
 	return _visited;
 }
 
-void Cell::SetVisitedState(bool visitedState) {
+void mg::Cell::SetVisitedState(bool visitedState) {
 	_visited = visitedState;
 }
 
-void Cell::Print() {
+void mg::Cell::Print() {
 	std::cout << std::format("t: {} r: {} b: {} l: {}",
 		(int)_walls.top, (int)_walls.right, (int)_walls.bottom, (int)_walls.left) 
 		<< std::endl;

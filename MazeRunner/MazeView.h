@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace view {
-	void Render(std::vector<std::vector<Cell>>, sf::RenderWindow&, const int = 10);
+	void Render(std::vector<std::vector<mg::Cell>>, sf::RenderWindow&, const int = 10);
 }
 
 #endif // MAZE_VIEW_H

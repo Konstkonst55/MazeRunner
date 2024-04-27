@@ -1,13 +1,8 @@
 ﻿
 #include "MazeGenerator.h"
 #include <random>
-#include <chrono>
-#include <algorithm>
-#include <stack>
-#include <queue>
 #include <algorithm>
 #include <numeric>
-#include <stdlib.h>
 
 mg::MazeGenerator::MazeGenerator()
     : MazeGenerator(GenerateSeed()) { }
@@ -20,8 +15,8 @@ mg::MazeGenerator::MazeGenerator(MazeSize size)
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
     : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
-    for (int y = 0; y < _size.height; y++) {
-        for (int x = 0; x < _size.width; x++) {
+    for (unsigned int y = 0; y < _size.height; y++) {
+        for (unsigned int x = 0; x < _size.width; x++) {
             _maze[y][x] = Cell(Point(x, y), WallStates(), Default, false);
         }
     }
@@ -35,7 +30,7 @@ void mg::MazeGenerator::SetSeed(unsigned int seed) {
     _seed = seed;
 }
 
-MazeSize mg::MazeGenerator::GetSize() {
+mg::MazeSize mg::MazeGenerator::GetSize() {
     return _size;
 }
 
@@ -43,7 +38,7 @@ void mg::MazeGenerator::SetSize(MazeSize size) {
     _size = size;
 }
 
-std::vector<std::vector<Cell>>& mg::MazeGenerator::GetMaze() {
+std::vector<std::vector<mg::Cell>>& mg::MazeGenerator::GetMaze() {
     return _maze;
 }
 
@@ -55,9 +50,9 @@ unsigned int mg::MazeGenerator::GenerateSeed() {
 void mg::MazeGenerator::Generate() {
     std::mt19937 rng(_seed);
 
-    std::vector<std::pair<int, int>> walls;
-    for (int y = 0; y < _size.height; ++y) {
-        for (int x = 0; x < _size.width; ++x) {
+    std::vector<std::pair<unsigned int, unsigned int>> walls;
+    for (unsigned int y = 0; y < _size.height; ++y) {
+        for (unsigned int x = 0; x < _size.width; ++x) {
             if (x < _size.width - 1) walls.push_back({ y, x });
             if (y < _size.height - 1) walls.push_back({ y, x + _size.width });
         }
