@@ -17,20 +17,18 @@ WallState SafeCastToWallState(bool value) {
 
 int main() {
     const int msize = 25;
-    sf::RenderWindow window(sf::VideoMode(1200, 900), "MazeRunner");
-    std::vector<std::vector<Cell>> maze;
+    sf::RenderWindow window(sf::VideoMode(700, 700), "MazeRunner");
     mg::MazeGenerator mazeGen(MazeSize(msize, msize));
 
-    maze = mazeGen.Generate();
+    mazeGen.Generate();
 
-    for (auto cellx : maze) {
-        for (auto cell : cellx) {
-            cell.Print();
+    for (auto& ycell : mazeGen.GetMaze()) {
+        for (auto& xcell : ycell) {
+            xcell.Print();
         }
     }
 
-    view::Render(maze, window, 25);
-    maze.clear();
+    view::Render(mazeGen.GetMaze(), window, 25);
 
     while (window.isOpen())
     {

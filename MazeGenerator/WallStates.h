@@ -6,12 +6,12 @@
 #include "WallState.h"
 
 struct WallStates {
-	WallState top = Open;		// 0
-	WallState right = Open;		// 1
-	WallState bottom = Open;	// 2
-	WallState left = Open;		// 3
+	WallState top = Close;			// 0
+	WallState right = Close;		// 1
+	WallState bottom = Close;		// 2
+	WallState left = Close;			// 3
 
-	WallStates() : top(Open), right(Open), bottom(Open), left(Open) { }
+	WallStates() : top(Close), right(Close), bottom(Close), left(Close) { }
 	WallStates(WallState _top, WallState _right, WallState _bottom, WallState _left)
 		: top(_top), right(_right), bottom(_bottom), left(_left) { }
 };

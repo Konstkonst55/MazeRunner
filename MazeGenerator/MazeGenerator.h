@@ -12,6 +12,7 @@ namespace mg {
 	private:
 		unsigned int _seed;
 		MazeSize _size;
+		std::vector<std::vector<Cell>> _maze;
 
 		unsigned int GenerateSeed();
 
@@ -25,8 +26,10 @@ namespace mg {
 		void SetSeed(unsigned int);
 		MazeSize GetSize();
 		void SetSize(MazeSize);
+		std::vector<std::vector<Cell>> GetMaze();
 
-		std::vector<std::vector<Cell>> Generate();
+		void Generate();
+		int FindRoot(std::vector<int>&, int);
 	};
 }
 

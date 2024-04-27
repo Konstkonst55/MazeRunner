@@ -4,7 +4,9 @@
 #include <chrono>
 #include <algorithm>
 #include <stack>
-#include <functional>
+#include <queue>
+#include <algorithm>
+#include <numeric>
 #include <stdlib.h>
 
 mg::MazeGenerator::MazeGenerator()
@@ -17,7 +19,13 @@ mg::MazeGenerator::MazeGenerator(MazeSize size)
     : MazeGenerator(GenerateSeed(), size) { }
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
-    : _seed(seed), _size(size) { }
+    : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
+    for (int y = 0; y < _size.height; y++) {
+        for (int x = 0; x < _size.width; x++) {
+            _maze[y][x] = Cell(Point(x, y), WallStates(), false);
+        }
+    }
+}
 
 unsigned int mg::MazeGenerator::GetSeed() {
     return _seed;
@@ -35,48 +43,58 @@ void mg::MazeGenerator::SetSize(MazeSize size) {
     _size = size;
 }
 
+std::vector<std::vector<Cell>> mg::MazeGenerator::GetMaze() {
+    return _maze;
+}
+
 unsigned int mg::MazeGenerator::GenerateSeed() {
     std::random_device rd;
     return rd();
 }
 
-std::vector<std::vector<Cell>> mg::MazeGenerator::Generate() {
-    std::vector<std::vector<Cell>> maze(_size.height, std::vector<Cell>(_size.width));
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 1);
+void mg::MazeGenerator::Generate() {
+    std::mt19937 rng(_seed);
 
+    std::vector<std::pair<int, int>> walls;
     for (int y = 0; y < _size.height; ++y) {
         for (int x = 0; x < _size.width; ++x) {
-            maze[y][x] = Cell(Point(x, y), WallStates(), false);
+            if (x < _size.width - 1) walls.push_back({ y, x });
+            if (y < _size.height - 1) walls.push_back({ y, x + _size.width });
         }
     }
 
-    std::function<void(int, int)> generateMaze = [&](int x, int y) {
-        maze[y][x].SetVisitedState(true);
+    std::shuffle(walls.begin(), walls.end(), rng);
+    std::vector<int> parent(_size.height * _size.width);
+    std::iota(parent.begin(), parent.end(), 0);
 
-        std::vector<std::pair<int, int>> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-        std::shuffle(directions.begin(), directions.end(), gen);
+    for (const auto& wall : walls) {
+        int y = wall.first, x = wall.second % _size.width;
+        int y2 = (wall.second < _size.width) ? y : y + 1;
+        int x2 = (wall.second < _size.width) ? x + 1 : x;
 
-        for (auto& dir : directions) {
-            int newX = x + dir.first;
-            int newY = y + dir.second;
+        int root1 = FindRoot(parent, y * _size.width + x);
+        int root2 = FindRoot(parent, y2 * _size.width + x2);
 
-            if (newX >= 0 && newX < _size.width && newY >= 0 && newY < _size.height && !maze[newY][newX].IsVisited()) {
-                if (dir.first == -1) maze[y][x].SetWallState(3, Close);
-                if (dir.first == 1) maze[y][x].SetWallState(1, Close);
-                if (dir.second == -1) maze[y][x].SetWallState(0, Close);
-                if (dir.second == 1) maze[y][x].SetWallState(2, Close);
-
-                generateMaze(newX, newY);
+        if (root1 != root2) {
+            parent[root2] = root1;
+            if (y2 == y + 1) {
+                _maze[y][x].SetWallState(2, Open);
+                _maze[y2][x].SetWallState(0, Open);
+            }
+            else {
+                _maze[y][x].SetWallState(1, Open);
+                _maze[y][x2].SetWallState(3, Open);
             }
         }
-    };
+    }
 
-    generateMaze(0, 0);
+    _maze[_size.height - 1][_size.width - 1].SetWallState(1, Open);
+    _maze[_size.height - 1][_size.width - 1].SetWallState(2, Open);
+    _maze[0][0].SetWallState(0, Open);
+    _maze[0][0].SetWallState(3, Open);
+}
 
-    maze[_size.height - 1][_size.width - 1].SetWallState(0, Open);
-    maze[_size.height - 1][_size.width - 1].SetWallState(3, Open);
-
-    return maze;
+int mg::MazeGenerator::FindRoot(std::vector<int>&parent, int i) {
+    if (parent[i] == i) return i;
+    return parent[i] = FindRoot(parent, parent[i]);
 }
