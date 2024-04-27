@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CellType.h" />
     <ClInclude Include="MazeGenerator.h" />
     <ClInclude Include="MazeSize.h" />
     <ClInclude Include="WallState.h" />

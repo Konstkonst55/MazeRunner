@@ -21,13 +21,6 @@ int main() {
     mg::MazeGenerator mazeGen(MazeSize(msize, msize));
 
     mazeGen.Generate();
-
-    for (auto& ycell : mazeGen.GetMaze()) {
-        for (auto& xcell : ycell) {
-            xcell.Print();
-        }
-    }
-
     view::Render(mazeGen.GetMaze(), window, 25);
 
     while (window.isOpen())
@@ -40,6 +33,5 @@ int main() {
         }
     }
 
-    system("PAUSE");
     return 0;
 }

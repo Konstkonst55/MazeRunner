@@ -30,6 +30,9 @@
     <ClInclude Include="MazeSize.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
+    <ClInclude Include="CellType.h">
+      <Filter>Файлы заголовков\data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MazeGenerator.cpp">

@@ -26,7 +26,7 @@ namespace mg {
 		void SetSeed(unsigned int);
 		MazeSize GetSize();
 		void SetSize(MazeSize);
-		std::vector<std::vector<Cell>> GetMaze();
+		std::vector<std::vector<Cell>>& GetMaze();
 
 		void Generate();
 		int FindRoot(std::vector<int>&, int);

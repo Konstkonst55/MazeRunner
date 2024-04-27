@@ -6,16 +6,19 @@
 Cell::Cell()
 	: Cell(Point(0, 0)) {}
 
-Cell::Cell(Point point) 
-	: Cell(point, WallStates()) { }
+Cell::Cell(Point position)
+	: Cell(position, WallStates()) { }
 
-Cell::Cell(Point point, WallStates walls) 
-	: Cell(point, walls, false) { }
+Cell::Cell(Point position, WallStates walls)
+	: Cell(position, walls, false) { }
 
 Cell::Cell(Point position, WallStates walls, bool visited)
-	: _position(position), _walls(walls), _visited(visited) { }
+	: Cell(position, walls, Default, visited) { }
 
-Point Cell::GetPosition() {
+Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
+	: _position(position), _walls(walls), _type(type), _visited(visited) { }
+
+Point& Cell::GetPosition() {
 	return _position;
 }
 
@@ -23,7 +26,7 @@ void Cell::SetPosition(Point point) {
 	_position = point;
 }
 
-WallStates Cell::GetWalls() {
+WallStates& Cell::GetWalls() {
 	return _walls;
 }
 
@@ -41,6 +44,14 @@ void Cell::SetWallState(int id, WallState state) {
 		default:
 			break;
 	}
+}
+
+void Cell::SetType(CellType type) {
+	_type = type;
+}
+
+CellType& Cell::GetType(){
+	return _type;
 }
 
 bool Cell::IsVisited() {

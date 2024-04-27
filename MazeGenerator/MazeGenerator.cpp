@@ -22,7 +22,7 @@ mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
     : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
     for (int y = 0; y < _size.height; y++) {
         for (int x = 0; x < _size.width; x++) {
-            _maze[y][x] = Cell(Point(x, y), WallStates(), false);
+            _maze[y][x] = Cell(Point(x, y), WallStates(), Default, false);
         }
     }
 }
@@ -43,7 +43,7 @@ void mg::MazeGenerator::SetSize(MazeSize size) {
     _size = size;
 }
 
-std::vector<std::vector<Cell>> mg::MazeGenerator::GetMaze() {
+std::vector<std::vector<Cell>>& mg::MazeGenerator::GetMaze() {
     return _maze;
 }
 
@@ -78,20 +78,18 @@ void mg::MazeGenerator::Generate() {
         if (root1 != root2) {
             parent[root2] = root1;
             if (y2 == y + 1) {
-                _maze[y][x].SetWallState(2, Open);
-                _maze[y2][x].SetWallState(0, Open);
+                _maze[y][x].GetWalls().bottom = Open;
+                _maze[y2][x].GetWalls().top = Open;
             }
             else {
-                _maze[y][x].SetWallState(1, Open);
-                _maze[y][x2].SetWallState(3, Open);
+                _maze[y][x].GetWalls().right = Open;
+                _maze[y][x2].GetWalls().left = Open;
             }
         }
     }
 
-    _maze[_size.height - 1][_size.width - 1].SetWallState(1, Open);
-    _maze[_size.height - 1][_size.width - 1].SetWallState(2, Open);
-    _maze[0][0].SetWallState(0, Open);
-    _maze[0][0].SetWallState(3, Open);
+    _maze[0][0].SetType(Start);
+    _maze[_size.height -1][_size.width - 1].SetType(End);
 }
 
 int mg::MazeGenerator::FindRoot(std::vector<int>&parent, int i) {
