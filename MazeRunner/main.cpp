@@ -7,21 +7,40 @@
 bool GetRandomBool();
 mg::WallState SafeCastToWallState(bool);
 
+
+void DrawSquare(sf::RenderWindow& window, sf::Vector2f position, int width, int height, sf::Color color)
+{
+    sf::RectangleShape rectangle(sf::Vector2f(width, height));
+    rectangle.setPosition(position);
+    rectangle.setFillColor(color);
+    window.draw(rectangle);
+}
+
+
 int main() {
-    const int msize = 25;
-    sf::RenderWindow window(sf::VideoMode(700, 700), "MazeRunner");
-    mg::MazeGenerator mazeGen(mg::MazeSize(msize, msize));
-
+    const sf::Vector2f msize = { 30, 30 };
+    sf::RenderWindow window(sf::VideoMode(500, 500), "MazeRunner");
+    mg::MazeGenerator mazeGen(mg::MazeSize((unsigned int)msize.x, (unsigned int)msize.y));
     mazeGen.Generate();
-    view::Render(mazeGen.GetMaze(), window, 25);
+    view::MazeView mazeView(mazeGen.GetMaze(), window);
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
 
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) window.close();
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
+                window.clear();
+                mazeGen.Generate();
+                mazeView.SetMaze(mazeGen.GetMaze());
+                mazeView.Render();
+            }
+            else if (event.type == sf::Event::Resized) {
+                window.clear();
+                mazeView.Render();
+            }
         }
     }
 
