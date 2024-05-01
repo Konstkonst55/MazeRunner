@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MAZE_GENERATOR
-#define MAZE_GENERATOR
+#ifndef MAZE_GENERATOR_H
+#define MAZE_GENERATOR_H
 
 #include <vector>
 #include "Cell.h"
@@ -14,7 +14,7 @@ namespace mg {
 		MazeSize _size;
 		std::vector<std::vector<Cell>> _maze;
 
-		unsigned int GenerateSeed();
+		void MazeInit();
 
 	public:
 		MazeGenerator();
@@ -29,8 +29,9 @@ namespace mg {
 		std::vector<std::vector<Cell>>& GetMaze();
 
 		void Generate();
+		unsigned int GenerateSeed();
 		int FindRoot(std::vector<int>&, int);
 	};
 }
 
-#endif // MAZE_GENERATOR
+#endif // MAZE_GENERATOR_H

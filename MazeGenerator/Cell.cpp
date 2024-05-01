@@ -4,7 +4,7 @@
 #include <format>
 
 mg::Cell::Cell()
-	: Cell(Point(0, 0)) {}
+	: Cell(Point(0, 0)) { }
 
 mg::Cell::Cell(Point position)
 	: Cell(position, WallStates()) { }
@@ -35,14 +35,10 @@ void mg::Cell::SetWalls(WallStates walls) {
 }
 
 void mg::Cell::SetWallState(int id, WallState state) {
-	switch (id)
-	{
-		case 0: _walls.top = state; break;
-		case 1: _walls.right = state; break;
-		case 2: _walls.bottom = state; break;
-		case 3: _walls.left = state; break;
-		default:
-			break;
+	WallState* walls[] = { &_walls.top, &_walls.right, &_walls.bottom, &_walls.left };
+
+	if (id >= 0 && id < 4) {
+		*walls[id] = state;
 	}
 }
 
@@ -63,7 +59,9 @@ void mg::Cell::SetVisitedState(bool visitedState) {
 }
 
 void mg::Cell::Print() {
-	std::cout << std::format("t: {} r: {} b: {} l: {}",
-		(int)_walls.top, (int)_walls.right, (int)_walls.bottom, (int)_walls.left) 
+	std::cout << std::format("t: {} r: {} b: {} l: {} v: {} tp {} p: [ {} ; {} ]",
+		(int)_walls.top, (int)_walls.right, (int)_walls.bottom,
+		(int)_walls.left, _visited ? 1 : 0, (int)_type,
+		_position.x, _position.y)
 		<< std::endl;
 }

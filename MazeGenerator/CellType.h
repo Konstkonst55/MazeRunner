@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CELL_TYPE
-#define CELL_TYPE
+#ifndef CELL_TYPE_H
+#define CELL_TYPE_H
 
 namespace mg {
 	enum CellType {
@@ -11,4 +11,4 @@ namespace mg {
 	};
 }
 
-#endif // CELL_TYPE
+#endif // CELL_TYPE_H

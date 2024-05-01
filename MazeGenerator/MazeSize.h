@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MAZE_SIZE
-#define MAZE_SIZE
+#ifndef MAZE_SIZE_H
+#define MAZE_SIZE_H
 
 namespace mg {
 	struct MazeSize {
@@ -12,4 +12,4 @@ namespace mg {
 	};
 }
 
-#endif // MAZE_SIZE
+#endif // MAZE_SIZE_H

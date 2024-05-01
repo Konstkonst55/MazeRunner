@@ -15,6 +15,10 @@ mg::MazeGenerator::MazeGenerator(MazeSize size)
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
     : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
+    MazeInit();
+}
+
+void mg::MazeGenerator::MazeInit() {
     for (unsigned int y = 0; y < _size.height; y++) {
         for (unsigned int x = 0; x < _size.width; x++) {
             _maze[y][x] = Cell(Point(x, y), WallStates(), Default, false);
@@ -42,13 +46,9 @@ std::vector<std::vector<mg::Cell>>& mg::MazeGenerator::GetMaze() {
     return _maze;
 }
 
-unsigned int mg::MazeGenerator::GenerateSeed() {
-    std::random_device rd;
-    return rd();
-}
-
 void mg::MazeGenerator::Generate() {
     std::mt19937 rng(_seed);
+    MazeInit();
 
     std::vector<std::pair<unsigned int, unsigned int>> walls;
     for (unsigned int y = 0; y < _size.height; ++y) {
@@ -84,7 +84,12 @@ void mg::MazeGenerator::Generate() {
     }
 
     _maze[0][0].SetType(Start);
-    _maze[_size.height -1][_size.width - 1].SetType(End);
+    _maze[_size.height - 1][_size.width - 1].SetType(End);
+}
+
+unsigned int mg::MazeGenerator::GenerateSeed() {
+    std::random_device rd;
+    return rd();
 }
 
 int mg::MazeGenerator::FindRoot(std::vector<int>&parent, int i) {
