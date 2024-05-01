@@ -13,6 +13,7 @@ int main() {
     mg::MazeGenerator mazeGen(mg::MazeSize((unsigned int)msize.x, (unsigned int)msize.y));
     mazeGen.Generate();
     view::MazeView mazeView(mazeGen.GetMaze(), window);
+    mazeView.Render();
 
     while (window.isOpen()) {
         sf::Event event;
@@ -21,13 +22,15 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
+            
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 window.clear();
                 mazeGen.Generate();
                 mazeView.SetMaze(mazeGen.GetMaze());
                 mazeView.Render();
             }
-            else if (event.type == sf::Event::Resized) {
+            
+            if (event.type == sf::Event::Resized) {
                 window.clear();
                 mazeView.Render();
             }
