@@ -22,6 +22,18 @@ mg::Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
 
 #pragma endregion
 
+#pragma region CellOperators
+
+const bool mg::Cell::operator==(const mg::Cell& cell) const {
+	return _position == cell.GetPosition()
+		&& _walls == cell.GetWalls()
+		&& _type == cell.GetType()
+		&& _visited == cell.IsVisited();
+}
+
+#pragma endregion
+
+
 #pragma region CellGetSet
 
 const mg::Point& mg::Cell::GetPosition() const {

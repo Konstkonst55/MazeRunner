@@ -12,7 +12,13 @@ namespace mg {
 	struct Point {
 		int x;
 		int y;
-		Point(int _x, int _y) : x(_x), y(_y) { }
+
+		Point() : x(0), y(0) { }
+		Point(int x, int y) : x(x), y(y) { }
+
+		const bool operator==(const Point& point) const {
+			return this->x == point.x && this->y == point.y;
+		}
 	};
 }
 

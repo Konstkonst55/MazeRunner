@@ -29,6 +29,8 @@ namespace mg {
 		Cell(Point, WallStates, bool);
 		Cell(Point, WallStates, CellType, bool);
 
+		const bool operator==(const Cell&) const;
+
 		const Point& GetPosition() const;
 		const WallStates& GetWalls() const;
 		const CellType& GetType() const;
