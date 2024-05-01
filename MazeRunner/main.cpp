@@ -7,16 +7,6 @@
 bool GetRandomBool();
 mg::WallState SafeCastToWallState(bool);
 
-
-void DrawSquare(sf::RenderWindow& window, sf::Vector2f position, int width, int height, sf::Color color)
-{
-    sf::RectangleShape rectangle(sf::Vector2f(width, height));
-    rectangle.setPosition(position);
-    rectangle.setFillColor(color);
-    window.draw(rectangle);
-}
-
-
 int main() {
     const sf::Vector2f msize = { 30, 30 };
     sf::RenderWindow window(sf::VideoMode(500, 500), "MazeRunner");

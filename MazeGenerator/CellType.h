@@ -6,15 +6,9 @@
 namespace mg {
 	/// <summary>
 	/// ѕеречисление типа €чейки
-	/// <para>
-	/// End = 0 - конец
-	/// </para>
-	/// <para>
-	/// Start = 1 - начало
-	/// </para>
-	/// <para>
-	/// Default = 2 - обычна€ €чейка
-	/// </para>
+	/// <para> End = 0 - конец </para>
+	/// <para> Start = 1 - начало </para>
+	/// <para> Default = 2 - обычна€ €чейка </para>
 	/// </summary>
 	enum CellType {
 		Start = 1,

@@ -6,15 +6,9 @@
 namespace mg {
 	/// <summary>
 	/// Размер лабиринта
-	/// <para>
-	/// uint width - ширина
-	/// </para>
-	/// <para>
-	/// height - высота
-	/// </para>
-	/// <para>
-	/// По умолчанию w25 h25
-	/// </para>
+	/// <para> uint width - ширина </para>
+	/// <para> height - высота </para>
+	/// <para> По умолчанию w25 h25 </para>
 	/// </summary>
 	struct MazeSize {
 		unsigned int width;

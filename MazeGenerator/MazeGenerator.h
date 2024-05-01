@@ -10,18 +10,10 @@
 namespace mg {
 	/// <summary>
 	/// Класс для генерации лабиринта
-    /// <para>
-	/// uint seed - сид для генерации
-    /// </para>
-    /// <para>
-	/// bool useUserSeed = false - использовать пользовательский сид
-    /// </para>
-    /// <para>
-	/// MazeSize size = MazeSize() - размер лабиринта
-    /// </para>
-    /// <para>
-	/// vector vector Cell maze - лабиринт
-    /// </para>
+    /// <para> uint seed - сид для генерации </para>
+    /// <para> bool useUserSeed = false - использовать пользовательский сид </para>
+    /// <para> MazeSize size = MazeSize() - размер лабиринта </para>
+    /// <para> vector vector Cell maze - лабиринт </para>
 	/// </summary>
 	class MazeGenerator {
 	private:

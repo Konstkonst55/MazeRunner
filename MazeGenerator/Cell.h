@@ -10,18 +10,10 @@
 namespace mg {
 	/// <summary>
 	///  ласс дл€ работы с €чейкой лабиринта
-	/// <para>
-	/// Point position - позици€ €чейки
-	/// </para>
-	/// <para>
-	/// WallStates walls - состо€ни€ всех стен €чейки
-	/// </para>
-	/// <para>
-	/// CellType type - тип €чейки
-	/// </para>
-	/// <para>
-	/// bool visited - посещена или нет
-	/// </para>
+	/// <para> Point position - позици€ €чейки </para>
+	/// <para> WallStates walls - состо€ни€ всех стен €чейки </para>
+	/// <para> CellType type - тип €чейки </para>
+	/// <para> bool visited - посещена или нет </para>
 	/// </summary>
 	class Cell {
 	private:

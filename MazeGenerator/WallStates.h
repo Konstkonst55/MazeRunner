@@ -8,21 +8,11 @@
 namespace mg {
 	/// <summary>
 	/// Состояния всех стен
-	/// <para>
-	/// 0: WallState top - верхняя стена
-	/// </para>
-	/// <para>
-	/// 1: WallState right - правая стена
-	/// </para>
-	/// <para>
-	/// 2: WallState bottom - нижняя стена
-	/// </para>
-	/// <para>
-	/// 3: WallState left - левая стена
-	/// </para>
-	/// <para>
-	/// По умолчанию все стены закрыты
-	/// </para>
+	/// <para> 0: WallState top - верхняя стена </para>
+	/// <para> 1: WallState right - правая стена </para>
+	/// <para> 2: WallState bottom - нижняя стена </para>
+	/// <para> 3: WallState left - левая стена </para>
+	/// <para> По умолчанию все стены закрыты </para>
 	/// </summary>
 	struct WallStates {
 		WallState top = Close;

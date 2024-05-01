@@ -10,24 +10,12 @@
 namespace view {
 	/// <summary>
 	///  ласс дл€ отрисовки лабиринта
-	/// <para>
-	/// vector vector Cell maze - копи€ лабиринта
-	/// </para>
-	/// <para>
-	/// RenderWindow window - окно дл€ рендера
-	/// </para>
-	/// <para>
-	/// Color color = White - цвет границ
-	/// </para>
-	/// <para>
-	/// size_t border = 10 - отступы лабиринта от границ окна
-	/// </para>
-	/// <para>
-	/// size_t thickness = 2 - толщина стен
-	/// </para>
-	/// <para>
-	/// Vector2f cellSize = { 20, 20 } - размер €чейки
-	/// </para>
+	/// <para> vector vector Cell maze - копи€ лабиринта </para>
+	/// <para> RenderWindow window - окно дл€ рендера </para>
+	/// <para> Color color = White - цвет границ </para>
+	/// <para> size_t border = 10 - отступы лабиринта от границ окна </para>
+	/// <para> size_t thickness = 2 - толщина стен </para>
+	/// <para> Vector2f cellSize = { 20, 20 } - размер €чейки </para>
 	/// </summary>
 	class MazeView {
 	private:

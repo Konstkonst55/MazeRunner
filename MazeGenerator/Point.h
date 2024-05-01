@@ -6,12 +6,8 @@
 namespace mg {
 	/// <summary>
 	/// Точка на плоскости
-	/// <para>
-	/// int x
-	/// </para>
-	/// <para>
-	/// int y
-	/// </para>
+	/// <para> int x </para>
+	/// <para> int y </para>
 	/// </summary>
 	struct Point {
 		int x;

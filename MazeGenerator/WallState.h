@@ -6,12 +6,8 @@
 namespace mg {
 	/// <summary>
 	/// Перечисление типа состояния стены
-	/// <para>
-	/// Open = 1 - открыта
-	/// </para>
-	/// <para>
-	/// Close = 0 - зыкрыта
-	/// </para>
+	/// <para> Open = 1 - открыта </para>
+	/// <para> Close = 0 - зыкрыта </para>
 	/// </summary>
 	enum WallState {
 		Open = 1,
