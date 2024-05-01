@@ -8,6 +8,21 @@
 #include "CellType.h"
 
 namespace mg {
+	/// <summary>
+	///  ласс дл€ работы с €чейкой лабиринта
+	/// <para>
+	/// Point position - позици€ €чейки
+	/// </para>
+	/// <para>
+	/// WallStates walls - состо€ни€ всех стен €чейки
+	/// </para>
+	/// <para>
+	/// CellType type - тип €чейки
+	/// </para>
+	/// <para>
+	/// bool visited - посещена или нет
+	/// </para>
+	/// </summary>
 	class Cell {
 	private:
 		Point _position;
@@ -22,14 +37,14 @@ namespace mg {
 		Cell(Point, WallStates, bool);
 		Cell(Point, WallStates, CellType, bool);
 
-		Point& GetPosition();
+		const Point& GetPosition() const;
+		const WallStates& GetWalls() const;
+		const CellType& GetType() const;
+		const bool IsVisited() const;
 		void SetPosition(Point);
-		WallStates& GetWalls();
 		void SetWalls(WallStates);
 		void SetWallState(int, WallState);
 		void SetType(CellType);
-		CellType& GetType();
-		bool IsVisited();
 		void SetVisitedState(bool);
 
 		void Print();

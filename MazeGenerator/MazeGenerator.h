@@ -8,13 +8,31 @@
 #include "MazeSize.h"
 
 namespace mg {
+	/// <summary>
+	/// Класс для генерации лабиринта
+    /// <para>
+	/// uint seed - сид для генерации
+    /// </para>
+    /// <para>
+	/// bool useUserSeed = false - использовать пользовательский сид
+    /// </para>
+    /// <para>
+	/// MazeSize size = MazeSize() - размер лабиринта
+    /// </para>
+    /// <para>
+	/// vector vector Cell maze - лабиринт
+    /// </para>
+	/// </summary>
 	class MazeGenerator {
 	private:
 		unsigned int _seed;
-		MazeSize _size;
+		bool _useUserSeed = false;
+		MazeSize _size = MazeSize();
 		std::vector<std::vector<Cell>> _maze;
 
 		void MazeInit();
+		int FindRoot(std::vector<int>&, int);
+		unsigned int GenerateSeed();
 
 	public:
 		MazeGenerator();
@@ -22,15 +40,13 @@ namespace mg {
 		MazeGenerator(MazeSize);
 		MazeGenerator(unsigned int, MazeSize);
 
-		unsigned int GetSeed();
+		const unsigned int GetSeed() const;
+		const MazeSize& GetSize() const;
+		const std::vector<std::vector<Cell>>& GetMaze() const;
 		void SetSeed(unsigned int);
-		MazeSize GetSize();
 		void SetSize(MazeSize);
-		std::vector<std::vector<Cell>>& GetMaze();
 
 		void Generate();
-		unsigned int GenerateSeed();
-		int FindRoot(std::vector<int>&, int);
 	};
 }
 

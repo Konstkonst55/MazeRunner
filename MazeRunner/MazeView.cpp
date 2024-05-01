@@ -2,34 +2,32 @@
 #include "MazeView.h"
 #include <iostream>
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window) 
+#pragma region MazeViewConstructor
+
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window)
     : MazeView(maze, window, sf::Color::White) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color) 
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color)
     : MazeView(maze, window, color, 2) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness) 
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness)
     : MazeView(maze, window, color, thickness, 10) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness, size_t border) 
-    : _maze(maze), _window(window), _color(color), _thickness(thickness), _border(border) { 
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness, size_t border)
+    : _maze(maze), _window(window), _color(color), _thickness(thickness), _border(border) {
     UpdateCellSize();
 }
 
-void view::MazeView::UpdateCellSize() {
-    _cellSize = {
-        ((float)_window.getSize().x - _border * 2) / (float)_maze[0].size(),
-        ((float)_window.getSize().y - _border * 2) / (float)_maze.size()
-    };
+#pragma endregion
+
+#pragma region MazeViewGetSet
+
+const size_t view::MazeView::GetBorder() const {
+    return _border;
 }
 
-void view::MazeView::DrawRectangleCenteredAt(sf::Vector2f position, sf::Color color) {
-    sf::RectangleShape rectangle(sf::Vector2f(_cellSize.x, _cellSize.y));
-
-    rectangle.setPosition(position.x, position.y);
-    rectangle.setFillColor(color);
-
-    _window.draw(rectangle);
+const size_t view::MazeView::GetThickness() const {
+    return _thickness;
 }
 
 void view::MazeView::SetMaze(std::vector<std::vector<mg::Cell>> maze) {
@@ -44,18 +42,41 @@ void view::MazeView::SetBorder(size_t border) {
     _border = border;
 }
 
-size_t view::MazeView::GetBorder() {
-    return _border;
-}
-
 void view::MazeView::SetThickness(size_t thickness) {
     _thickness = thickness;
 }
 
-size_t view::MazeView::GetThickness() {
-    return _thickness;
+#pragma endregion
+
+#pragma region MazeViewLogic
+
+/// <summary>
+/// Вычисление расчета размера одной ячейки в зависимости от размера окна
+/// </summary>
+void view::MazeView::UpdateCellSize() {
+    _cellSize = {
+        ((float)_window.getSize().x - _border * 2) / (float)_maze[0].size(),
+        ((float)_window.getSize().y - _border * 2) / (float)_maze.size()
+    };
 }
 
+/// <summary>
+/// Отрисовка прямоугольника c координатами position и цветом color
+/// </summary>
+/// <param name="position"> - позиция</param>
+/// <param name="color"> - цвет</param>
+void view::MazeView::DrawRectangleCenteredAt(sf::Vector2f position, sf::Color color) {
+    sf::RectangleShape rectangle(sf::Vector2f(_cellSize.x, _cellSize.y));
+
+    rectangle.setPosition(position.x, position.y);
+    rectangle.setFillColor(color);
+
+    _window.draw(rectangle);
+}
+
+/// <summary>
+/// Отрисовка лабиринта
+/// </summary>
 void view::MazeView::Render() {
     sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, _thickness));
     wallShape.setFillColor(_color);
@@ -106,3 +127,5 @@ void view::MazeView::Render() {
 
     _window.display();
 }
+
+#pragma endregion

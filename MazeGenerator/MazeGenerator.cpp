@@ -4,20 +4,53 @@
 #include <algorithm>
 #include <numeric>
 
+#pragma region MazeGeneratorConstructor
+
 mg::MazeGenerator::MazeGenerator()
-    : MazeGenerator(GenerateSeed()) { }
+    : _seed(GenerateSeed()), _size(MazeSize()), _maze(_size.height, std::vector<Cell>(_size.width)), _useUserSeed(false) { }
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed)
-    : MazeGenerator(seed, MazeSize()) { }
+    : _seed(seed), _size(MazeSize()), _maze(_size.height, std::vector<Cell>(_size.width)), _useUserSeed(true) { }
 
 mg::MazeGenerator::MazeGenerator(MazeSize size)
-    : MazeGenerator(GenerateSeed(), size) { }
+    : _seed(GenerateSeed()), _size(size), _maze(size.height, std::vector<Cell>(size.width)), _useUserSeed(false) { }
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
-    : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
+    : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)), _useUserSeed(true) {
     MazeInit();
 }
 
+#pragma endregion
+
+#pragma region MazeGeneratorGetSet
+
+const unsigned int mg::MazeGenerator::GetSeed() const {
+    return _seed;
+}
+
+const mg::MazeSize& mg::MazeGenerator::GetSize() const {
+    return _size;
+}
+
+const std::vector<std::vector<mg::Cell>>& mg::MazeGenerator::GetMaze() const {
+    return _maze;
+}
+
+void mg::MazeGenerator::SetSeed(unsigned int seed) {
+    _seed = seed;
+}
+
+void mg::MazeGenerator::SetSize(MazeSize size) {
+    _size = size;
+}
+
+#pragma endregion
+
+#pragma region MazeGeneratorLogic
+
+/// <summary>
+/// Иннициализация лабиринта - создание всех ячеек
+/// </summary>
 void mg::MazeGenerator::MazeInit() {
     for (unsigned int y = 0; y < _size.height; y++) {
         for (unsigned int x = 0; x < _size.width; x++) {
@@ -26,28 +59,12 @@ void mg::MazeGenerator::MazeInit() {
     }
 }
 
-unsigned int mg::MazeGenerator::GetSeed() {
-    return _seed;
-}
-
-void mg::MazeGenerator::SetSeed(unsigned int seed) {
-    _seed = seed;
-}
-
-mg::MazeSize mg::MazeGenerator::GetSize() {
-    return _size;
-}
-
-void mg::MazeGenerator::SetSize(MazeSize size) {
-    _size = size;
-}
-
-std::vector<std::vector<mg::Cell>>& mg::MazeGenerator::GetMaze() {
-    return _maze;
-}
-
+/// <summary>
+/// Генерация лабиринта методом Краскала
+/// </summary>
 void mg::MazeGenerator::Generate() {
-    std::mt19937 rng(_seed);
+    std::mt19937 rng;
+    _useUserSeed ? rng.seed(_seed) : rng.seed(GenerateSeed());
     MazeInit();
 
     std::vector<std::pair<unsigned int, unsigned int>> walls;
@@ -73,12 +90,12 @@ void mg::MazeGenerator::Generate() {
         if (root1 != root2) {
             parent[root2] = root1;
             if (y2 == y + 1) {
-                _maze[y][x].GetWalls().bottom = Open;
-                _maze[y2][x].GetWalls().top = Open;
+                _maze[y][x].SetWallState(2, Open);
+                _maze[y2][x].SetWallState(0, Open);
             }
             else {
-                _maze[y][x].GetWalls().right = Open;
-                _maze[y][x2].GetWalls().left = Open;
+                _maze[y][x].SetWallState(1, Open);
+                _maze[y][x2].SetWallState(3, Open);
             }
         }
     }
@@ -87,12 +104,24 @@ void mg::MazeGenerator::Generate() {
     _maze[_size.height - 1][_size.width - 1].SetType(End);
 }
 
+/// <summary>
+/// Генерация случайного сида
+/// </summary>
+/// <returns>Случайный сид</returns>
 unsigned int mg::MazeGenerator::GenerateSeed() {
     std::random_device rd;
     return rd();
 }
 
-int mg::MazeGenerator::FindRoot(std::vector<int>&parent, int i) {
+/// <summary>
+/// Нахождение следующего корня при генерации лабиринта
+/// </summary>
+/// <param name="parent"></param>
+/// <param name="i"></param>
+/// <returns></returns>
+int mg::MazeGenerator::FindRoot(std::vector<int>& parent, int i) {
     if (parent[i] == i) return i;
     return parent[i] = FindRoot(parent, parent[i]);
 }
+
+#pragma endregion

@@ -4,6 +4,18 @@
 #define MAZE_SIZE_H
 
 namespace mg {
+	/// <summary>
+	/// Размер лабиринта
+	/// <para>
+	/// uint width - ширина
+	/// </para>
+	/// <para>
+	/// height - высота
+	/// </para>
+	/// <para>
+	/// По умолчанию w25 h25
+	/// </para>
+	/// </summary>
 	struct MazeSize {
 		unsigned int width;
 		unsigned int height;
