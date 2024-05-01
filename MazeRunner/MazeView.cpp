@@ -5,16 +5,19 @@
 #pragma region MazeViewConstructor
 
 view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window)
-    : MazeView(maze, window, sf::Color::White) { }
+    : MazeView(maze, {}, window, sf::Color::White) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color)
-    : MazeView(maze, window, color, 2) { }
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window) 
+    : MazeView(maze, path, window, sf::Color::White) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness)
-    : MazeView(maze, window, color, thickness, 10) { }
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color)
+    : MazeView(maze, path, window, color, 2) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window, sf::Color color, size_t thickness, size_t border)
-    : _maze(maze), _window(window), _color(color), _thickness(thickness), _border(border) {
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color, size_t thickness)
+    : MazeView(maze, path, window, color, thickness, 10) { }
+
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color, size_t thickness, size_t border)
+    : _maze(maze), _path(path), _window(window), _color(color), _thickness(thickness), _border(border) {
     UpdateCellSize();
 }
 
@@ -32,6 +35,10 @@ const size_t view::MazeView::GetThickness() const {
 
 void view::MazeView::SetMaze(std::vector<std::vector<mg::Cell>> maze) {
     _maze = maze;
+}
+
+void view::MazeView::SetPath(std::vector<mg::Point> path) {
+    _path = path;
 }
 
 void view::MazeView::SetColor(sf::Color color) {
@@ -78,11 +85,11 @@ void view::MazeView::DrawRectangleCenteredAt(sf::Vector2f position, sf::Color co
 /// Отрисовка лабиринта
 /// </summary>
 void view::MazeView::Render() {
-    sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, _thickness));
+    sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, (float)_thickness));
     wallShape.setFillColor(_color);
 
-    for (auto& row : _maze) {
-        for (auto& cell : row) {
+    for (const auto& row : _maze) {
+        for (const auto& cell : row) {
             mg::Point position = cell.GetPosition();
 
             if (cell.GetType() == mg::Start) {
@@ -124,8 +131,18 @@ void view::MazeView::Render() {
             }
         }
     }
+}
 
-    _window.display();
+void view::MazeView::RenderPath() {
+    if (_path.empty()) return;
+
+    const int radius = _cellSize.x > _cellSize.y ? _cellSize.x / 6 : _cellSize.y / 6;
+
+    for (const auto& point : _path) {
+        sf::CircleShape circle(radius);
+        circle.setPosition({ (float)(point.x * _cellSize.x + _border + _cellSize.x / 2 - radius), (float)(point.y * _cellSize.y + _border + _cellSize.y / 2 - radius) });
+        _window.draw(circle);
+    }
 }
 
 #pragma endregion

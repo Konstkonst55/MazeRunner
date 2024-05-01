@@ -1,19 +1,30 @@
 
 #include <SFML/Graphics.hpp>
 #include <MazeGenerator.h>
+#include <MazePathFinder.h>
 #include "MazeView.h"
 #include <random>
 
 bool GetRandomBool();
 mg::WallState SafeCastToWallState(bool);
+void Regenerate(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
+void Redraw(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
 
 int main() {
-    const sf::Vector2f msize = { 30, 30 };
-    sf::RenderWindow window(sf::VideoMode(500, 500), "MazeRunner");
-    mg::MazeGenerator mazeGen(mg::MazeSize((unsigned int)msize.x, (unsigned int)msize.y));
+    const unsigned int
+        mazeWidth   = 30,
+        mazeHeight  = 30,
+        winWidth    = 500,
+        winHeight   = 500;
+
+    sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), "MazeRunner");
+    mg::MazeGenerator mazeGen(mg::MazeSize(mazeWidth, mazeHeight));
     mazeGen.Generate();
-    view::MazeView mazeView(mazeGen.GetMaze(), window);
-    mazeView.Render();
+    mpf::MazePathFinder mazePathFinder(mazeGen.GetMaze());
+    mazePathFinder.FindPath();
+    view::MazeView mazeView(mazeGen.GetMaze(), mazePathFinder.GetPath(), window);
+    Redraw(mazeGen, mazePathFinder, mazeView);
+    window.display();
 
     while (window.isOpen()) {
         sf::Event event;
@@ -25,14 +36,15 @@ int main() {
             
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 window.clear();
-                mazeGen.Generate();
-                mazeView.SetMaze(mazeGen.GetMaze());
-                mazeView.Render();
+                Regenerate(mazeGen, mazePathFinder, mazeView);
+                Redraw(mazeGen, mazePathFinder, mazeView);
+                window.display();
             }
             
             if (event.type == sf::Event::Resized) {
                 window.clear();
-                mazeView.Render();
+                Redraw(mazeGen, mazePathFinder, mazeView);
+                window.display();
             }
         }
     }
@@ -48,4 +60,19 @@ bool GetRandomBool() {
 
 mg::WallState SafeCastToWallState(bool value) {
     return value ? mg::WallState::Open : mg::WallState::Close;
+}
+
+void Regenerate(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
+    mazeGen.Generate();
+
+    mazePathFinder.SetMaze(mazeGen.GetMaze());
+    mazePathFinder.FindPath();
+
+    mazeView.SetMaze(mazeGen.GetMaze());
+    mazeView.SetPath(mazePathFinder.GetPath());
+}
+
+void Redraw(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView){
+    mazeView.Render();
+    mazeView.RenderPath();
 }

@@ -20,6 +20,7 @@ namespace view {
 	class MazeView {
 	private:
 		std::vector<std::vector<mg::Cell>> _maze;
+		std::vector<mg::Point> _path;
 		sf::RenderWindow& _window;
 		sf::Color _color = sf::Color::White;
 		size_t _border = 10;
@@ -31,18 +32,21 @@ namespace view {
 
 	public:
 		MazeView(std::vector<std::vector<mg::Cell>>, sf::RenderWindow&);
-		MazeView(std::vector<std::vector<mg::Cell>>, sf::RenderWindow&, sf::Color);
-		MazeView(std::vector<std::vector<mg::Cell>>, sf::RenderWindow&, sf::Color, size_t);
-		MazeView(std::vector<std::vector<mg::Cell>>, sf::RenderWindow&, sf::Color, size_t, size_t);
+		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&);
+		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color);
+		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color, size_t);
+		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color, size_t, size_t);
 		
 		const size_t GetBorder() const;
 		const size_t GetThickness() const;
 		void SetMaze(std::vector<std::vector<mg::Cell>>);
+		void SetPath(std::vector<mg::Point>);
 		void SetColor(sf::Color);
 		void SetBorder(size_t);
 		void SetThickness(size_t);
 		
 		void Render();
+		void RenderPath();
 	};
 }
 
