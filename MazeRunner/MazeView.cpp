@@ -7,7 +7,7 @@
 view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWindow& window)
     : MazeView(maze, {}, window, sf::Color::White) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window) 
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window)
     : MazeView(maze, path, window, sf::Color::White) { }
 
 view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color)

@@ -36,7 +36,7 @@ namespace view {
 		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color);
 		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color, size_t);
 		MazeView(std::vector<std::vector<mg::Cell>>, std::vector<mg::Point>, sf::RenderWindow&, sf::Color, size_t, size_t);
-		
+
 		const size_t GetBorder() const;
 		const size_t GetThickness() const;
 		void SetMaze(std::vector<std::vector<mg::Cell>>);
@@ -44,7 +44,7 @@ namespace view {
 		void SetColor(sf::Color);
 		void SetBorder(size_t);
 		void SetThickness(size_t);
-		
+
 		void Render();
 		void RenderPath();
 	};
