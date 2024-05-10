@@ -143,14 +143,15 @@ void view::MazeView::Render() {
 void view::MazeView::RenderPath() {
     if (_path.empty()) return;
 
-    const int radius = _cellSize.x > _cellSize.y ? _cellSize.x / 6 : _cellSize.y / 6;
-    sf::CircleShape circle(radius);
-    circle.setFillColor(_pathColor);
+    sf::VertexArray line(sf::LinesStrip, _path.size());
 
-    for (const auto& point : _path) {
-        circle.setPosition({ (float)(point.x * _cellSize.x + _border + _cellSize.x / 2 - radius), (float)(point.y * _cellSize.y + _border + _cellSize.y / 2 - radius) });
-        _window.draw(circle);
+    for (size_t i = 0; i < _path.size(); ++i) {
+        line[i].position = sf::Vector2f((float)(_path[i].x * _cellSize.x + _border + _cellSize.x / 2),
+            (float)(_path[i].y * _cellSize.y + _border + _cellSize.y / 2));
+        line[i].color = _pathColor;
     }
+
+    _window.draw(line);
 }
 
 #pragma endregion
