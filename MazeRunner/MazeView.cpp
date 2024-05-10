@@ -10,14 +10,17 @@ view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, sf::RenderWind
 view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window)
     : MazeView(maze, path, window, sf::Color::White) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color)
-    : MazeView(maze, path, window, color, 2) { }
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color bColor)
+    : MazeView(maze, path, window, bColor, sf::Color::Green, 2) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color, size_t thickness)
-    : MazeView(maze, path, window, color, thickness, 10) { }
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color bColor, sf::Color pColor)
+    : MazeView(maze, path, window, bColor, pColor, 2) { }
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color color, size_t thickness, size_t border)
-    : _maze(maze), _path(path), _window(window), _color(color), _thickness(thickness), _border(border) {
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color bColor, sf::Color pColor, size_t thickness)
+    : MazeView(maze, path, window, bColor, pColor, thickness, 10) { }
+
+view::MazeView::MazeView(std::vector<std::vector<mg::Cell>> maze, std::vector<mg::Point> path, sf::RenderWindow& window, sf::Color bColor, sf::Color pColor, size_t thickness, size_t border)
+    : _maze(maze), _path(path), _window(window), _borderColor(bColor), _pathColor(pColor), _thickness(thickness), _border(border) {
     UpdateCellSize();
 }
 
@@ -41,8 +44,12 @@ void view::MazeView::SetPath(std::vector<mg::Point> path) {
     _path = path;
 }
 
-void view::MazeView::SetColor(sf::Color color) {
-    _color = color;
+void view::MazeView::SetBorderColor(sf::Color color) {
+    _borderColor = color;
+}
+
+void view::MazeView::SetPathColor(sf::Color color) {
+    _pathColor = color;
 }
 
 void view::MazeView::SetBorder(size_t border) {
@@ -86,7 +93,7 @@ void view::MazeView::DrawRectangleCenteredAt(sf::Vector2f position, sf::Color co
 /// </summary>
 void view::MazeView::Render() {
     sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, (float)_thickness));
-    wallShape.setFillColor(_color);
+    wallShape.setFillColor(_borderColor);
 
     for (const auto& row : _maze) {
         for (const auto& cell : row) {
@@ -137,9 +144,10 @@ void view::MazeView::RenderPath() {
     if (_path.empty()) return;
 
     const int radius = _cellSize.x > _cellSize.y ? _cellSize.x / 6 : _cellSize.y / 6;
+    sf::CircleShape circle(radius);
+    circle.setFillColor(_pathColor);
 
     for (const auto& point : _path) {
-        sf::CircleShape circle(radius);
         circle.setPosition({ (float)(point.x * _cellSize.x + _border + _cellSize.x / 2 - radius), (float)(point.y * _cellSize.y + _border + _cellSize.y / 2 - radius) });
         _window.draw(circle);
     }
