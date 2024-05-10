@@ -33,7 +33,6 @@ const bool mg::Cell::operator==(const mg::Cell& cell) const {
 
 #pragma endregion
 
-
 #pragma region CellGetSet
 
 const mg::Point& mg::Cell::GetPosition() const {

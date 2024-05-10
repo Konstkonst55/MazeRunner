@@ -12,7 +12,7 @@ namespace mpf {
 		std::vector<std::vector<mg::Cell>> _maze;
 		std::vector<mg::Point> _path;
 
-		const bool WallsIsCorrect(const int&, const int&, const std::vector<std::vector<bool>>&) const;
+		const bool DepthFirstSearch(const mg::Point&, const mg::Point&);
 
 	public:
 		MazePathFinder(std::vector<std::vector<mg::Cell>>);
