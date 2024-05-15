@@ -18,6 +18,8 @@ mg::MazeGenerator::MazeGenerator(MazeSize size)
 mg::MazeGenerator::MazeGenerator(unsigned int seed, MazeSize size)
     : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)), _useUserSeed(true) {
     MazeInit();
+    _start = mg::Point(0, 0);
+    _end = mg::Point(_size.height - 1, _size.width - 1);
 }
 
 #pragma endregion
@@ -40,8 +42,16 @@ void mg::MazeGenerator::SetSeed(unsigned int seed) {
     _seed = seed;
 }
 
-void mg::MazeGenerator::SetSize(MazeSize size) {
+void mg::MazeGenerator::SetSize(const MazeSize& size) {
     _size = size;
+}
+
+void mg::MazeGenerator::SetStart(const Point& start){
+    _start = start;
+}
+
+void mg::MazeGenerator::SetEnd(const Point& end) {
+    _end = end;
 }
 
 #pragma endregion
@@ -100,8 +110,8 @@ void mg::MazeGenerator::Generate() {
         }
     }
 
-    _maze[0][0].SetType(Start);
-    _maze[_size.height - 1][_size.width - 1].SetType(End);
+    _maze[_start.x][_start.y].SetType(Start);
+    _maze[_end.x][_end.y].SetType(End);
 }
 
 /// <summary>

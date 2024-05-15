@@ -21,6 +21,8 @@ namespace mg {
 		bool _useUserSeed = false;
 		MazeSize _size = MazeSize();
 		std::vector<std::vector<Cell>> _maze;
+		mg::Point _start = mg::Point();
+		mg::Point _end = mg::Point();
 
 		void MazeInit();
 		int FindRoot(std::vector<int>&, int);
@@ -36,7 +38,9 @@ namespace mg {
 		const MazeSize& GetSize() const;
 		const std::vector<std::vector<Cell>>& GetMaze() const;
 		void SetSeed(unsigned int);
-		void SetSize(MazeSize);
+		void SetSize(const MazeSize&S);
+		void SetStart(const mg::Point&);
+		void SetEnd(const mg::Point&);
 
 		void Generate();
 	};
