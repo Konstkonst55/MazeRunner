@@ -1,5 +1,4 @@
 ﻿#include "MazePathFinder.h"
-#include <queue>
 
 #pragma region MazePathFinderConstructor
 
@@ -22,6 +21,24 @@ void mpf::MazePathFinder::SetMaze(std::vector<std::vector<mg::Cell>> maze) {
 
 #pragma region MazePathFinderLogic
 
+/// <summary>
+/// Проверка на проходимость между ячейками
+/// </summary>
+/// <param name="from">Начальная ячейка</param>
+/// <param name="to">Конечная ячейка</param>
+/// <returns>true, если можно пройти</returns>
+const bool mpf::MazePathFinder::CanMove(const mg::Point& from, const mg::Point& to) {
+    return from.x == to.x ?
+        from.y < to.y ? _maze[from.x][from.y].GetWalls().right == mg::Open : _maze[from.x][from.y].GetWalls().left == mg::Open :
+        from.x < to.x ? _maze[from.x][from.y].GetWalls().bottom == mg::Open : _maze[from.x][from.y].GetWalls().top == mg::Open;
+}
+
+/// <summary>
+/// Поиск пути в глубину
+/// </summary>
+/// <param name="current">Текущая ячейка</param>
+/// <param name="end">Конечная ячейка</param>
+/// <returns>true, если найден</returns>
 const bool mpf::MazePathFinder::DepthFirstSearch(const mg::Point& current, const mg::Point& end) {
     if (current == end) {
         _path.push_back(current);
@@ -38,15 +55,9 @@ const bool mpf::MazePathFinder::DepthFirstSearch(const mg::Point& current, const
 
     for (const auto& dir : directions) {
         mg::Point next = { current.x + dir.x, current.y + dir.y };
+
         if (next.x >= 0 && next.x < _maze.size() && next.y >= 0 && next.y < _maze[0].size() && !_maze[next.x][next.y].IsVisited()) {
-            bool canMove = false;
-
-            canMove = (dir.x == -1 && _maze[current.x][current.y].GetWalls().top == mg::Open) ||
-                (dir.x == 1 && _maze[current.x][current.y].GetWalls().bottom == mg::Open) ||
-                (dir.y == -1 && _maze[current.x][current.y].GetWalls().left == mg::Open) ||
-                (dir.y == 1 && _maze[current.x][current.y].GetWalls().right == mg::Open);
-
-            if (canMove) {
+            if (CanMove(current, next)) {
                 if (DepthFirstSearch(next, end)) {
                     _path.push_back(current);
                     return true;
@@ -58,6 +69,9 @@ const bool mpf::MazePathFinder::DepthFirstSearch(const mg::Point& current, const
     return false;
 }
 
+/// <summary>
+/// Поиск пути в лабиринте
+/// </summary>
 void mpf::MazePathFinder::FindPath() {
     if (_maze.empty() || _maze[0].empty()) {
         return;
@@ -67,24 +81,18 @@ void mpf::MazePathFinder::FindPath() {
 
     mg::Point start, end;
 
-    for (int i = 0; i < _maze.size(); ++i) {
-        for (int j = 0; j < _maze[i].size(); ++j) {
-            if (_maze[i][j].GetType() == mg::Start) {
-                start = _maze[i][j].GetPosition();
+    for (const auto& row : _maze) {
+        for (const auto& cell : row) {
+            if (cell.GetType() == mg::Start) {
+                start = cell.GetPosition();
             }
-            else if (_maze[i][j].GetType() == mg::End) {
-                end = _maze[i][j].GetPosition();
+            else if (cell.GetType() == mg::End) {
+                end = cell.GetPosition();
             }
         }
     }
 
-    if (start == mg::Point(-1, -1) || end == mg::Point(-1, -1)) {
-        return;
-    }
-
-    if (!DepthFirstSearch(start, end)) {
-        return;
-    }
+    DepthFirstSearch(start, end);
 }
 
 #pragma endregion

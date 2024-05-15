@@ -10,9 +10,10 @@ namespace mpf {
 	class MazePathFinder {
 	private:
 		std::vector<std::vector<mg::Cell>> _maze;
-		std::vector<mg::Point> _path;
+	    std::vector<mg::Point> _path;
 
 		const bool DepthFirstSearch(const mg::Point&, const mg::Point&);
+		const bool CanMove(const mg::Point&, const mg::Point&);
 
 	public:
 		MazePathFinder(std::vector<std::vector<mg::Cell>>);
