@@ -101,14 +101,14 @@ void view::MazeView::Render() {
 
             if (cell.GetType() == mg::Start) {
                 DrawRectangleCenteredAt(
-                    sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border),
+                    sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border),
                     sf::Color::Green
                 );
             }
 
             if (cell.GetType() == mg::End) {
                 DrawRectangleCenteredAt(
-                    sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border),
+                    sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border),
                     sf::Color::Red
                 );
             }
@@ -140,14 +140,17 @@ void view::MazeView::Render() {
     }
 }
 
+/// <summary>
+/// Отрисовка пути
+/// </summary>
 void view::MazeView::RenderPath() {
     if (_path.empty()) return;
-
+    
     sf::VertexArray line(sf::LinesStrip, _path.size());
 
-    for (size_t i = 0; i < _path.size(); ++i) {
-        line[i].position = sf::Vector2f((float)(_path[i].x * _cellSize.x + _border + _cellSize.x / 2),
-            (float)(_path[i].y * _cellSize.y + _border + _cellSize.y / 2));
+    for (size_t i = 0; i < _path.size(); i++) {
+        line[i].position = sf::Vector2f((float)(_path[i].y * _cellSize.y + _border + _cellSize.y / 2),
+            (float)(_path[i].x * _cellSize.x + _border + _cellSize.x / 2));
         line[i].color = _pathColor;
     }
 
