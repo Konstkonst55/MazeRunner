@@ -3,26 +3,41 @@
 #include <MazeGenerator.h>
 #include <MazePathFinder.h>
 #include "MazeView.h"
-#include <random>
+#include <string>
 
-bool GetRandomBool();
-mg::WallState SafeCastToWallState(bool);
 void Regenerate(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
 void Redraw(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
 
 int main() {
+    const std::string appName   = "Maze Runner";
+    const sf::Color 
+        borderColor             = sf::Color::White,
+        pathColor               = sf::Color::Green;
     const unsigned int
-        mazeWidth   = 30,
-        mazeHeight  = 30,
-        winWidth    = 500,
-        winHeight   = 500;
+        mazeWidth               = 20,
+        mazeHeight              = 20,
+        winWidth                = 800,
+        winHeight               = 800,
+        borderThickness         = 1,
+        borderMargin            = 10;
+    const mg::Point 
+        start                   = mg::Point(0, 0),
+        end                     = mg::Point(mazeHeight - 1, mazeWidth - 1);
 
-    sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), "MazeRunner");
+    //const mg::Point
+    //    start = mg::Point(2, 10),
+    //    end = mg::Point(8, 5);
+
+    sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), appName);
     mg::MazeGenerator mazeGen(mg::MazeSize(mazeWidth, mazeHeight));
+    mazeGen.SetStart(start);
+    mazeGen.SetEnd(end);
     mazeGen.Generate();
+
     mpf::MazePathFinder mazePathFinder(mazeGen.GetMaze());
     mazePathFinder.FindPath();
-    view::MazeView mazeView(mazeGen.GetMaze(), mazePathFinder.GetPath(), window);
+
+    view::MazeView mazeView(mazeGen.GetMaze(), mazePathFinder.GetPath(), window, borderColor, pathColor, borderThickness, borderMargin);
     Redraw(mazeGen, mazePathFinder, mazeView);
     window.display();
 
@@ -40,7 +55,7 @@ int main() {
                 Redraw(mazeGen, mazePathFinder, mazeView);
                 window.display();
             }
-            
+
             if (event.type == sf::Event::Resized) {
                 window.clear();
                 Redraw(mazeGen, mazePathFinder, mazeView);
@@ -50,16 +65,6 @@ int main() {
     }
 
     return 0;
-}
-
-bool GetRandomBool() {
-    static std::default_random_engine generator(std::random_device{}());
-    std::uniform_int_distribution<int> distribution(0, 1);
-    return distribution(generator);
-}
-
-mg::WallState SafeCastToWallState(bool value) {
-    return value ? mg::WallState::Open : mg::WallState::Close;
 }
 
 void Regenerate(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
