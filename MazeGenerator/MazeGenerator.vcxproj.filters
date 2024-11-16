@@ -59,5 +59,11 @@
     <ClCompile Include="wall_states.cpp">
       <Filter>Исходные файлы\data</Filter>
     </ClCompile>
+    <ClCompile Include="maze.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClCompile>
+    <ClCompile Include="maze.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

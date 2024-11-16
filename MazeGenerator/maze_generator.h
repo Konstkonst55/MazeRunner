@@ -24,7 +24,10 @@ namespace mg {
 		data::Point _start = data::Point();
 		data::Point _end = data::Point();
 
-		void InitializeMaze();
+		void Initialize();
+		void Resize();
+		void CheckStart();
+		void CheckEnd();
 		size_t FindRoot(const std::vector<size_t>& parent, size_t it);
 		unsigned int GenerateSeed();
 

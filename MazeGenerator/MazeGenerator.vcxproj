@@ -150,6 +150,8 @@
   <ItemGroup>
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="cell.h" />
+    <ClCompile Include="maze.cpp" />
+    <ClCompile Include="maze.h" />
     <ClCompile Include="maze_generator.cpp" />
     <ClCompile Include="maze_size.cpp" />
     <ClCompile Include="point.cpp" />

@@ -18,9 +18,7 @@ mg::MazeGenerator::MazeGenerator(const data::MazeSize& size) : MazeGenerator(Gen
 }
 
 mg::MazeGenerator::MazeGenerator(unsigned int seed, const data::MazeSize& size) : _seed(seed), _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
-    InitializeMaze();
-    _start = data::Point(0, 0);
-    _end = data::Point(static_cast<int>(_size.height - 1), static_cast<int>(_size.width - 1));
+    Initialize();
     _useUserSeed = true;
 }
 
@@ -47,26 +45,38 @@ void mg::MazeGenerator::SetSeed(unsigned int seed) {
 
 void mg::MazeGenerator::SetSize(const data::MazeSize& size) {
     _size = size;
+    Resize();
+    Initialize();
 }
 
 void mg::MazeGenerator::SetSize(size_t width, size_t height) {
     _size = data::MazeSize(width, height);
+    Resize();
+    Initialize();
 }
 
 void mg::MazeGenerator::SetStart(const data::Point& start){
     _start = start;
+    CheckStart();
+    Initialize();
 }
 
 void mg::MazeGenerator::SetStart(int x, int y) {
     _start = data::Point(x, y);
+    CheckStart();
+    Initialize();
 }
 
 void mg::MazeGenerator::SetEnd(const data::Point& end) {
     _end = end;
+    CheckEnd();
+    Initialize();
 }
 
 void mg::MazeGenerator::SetEnd(int x, int y) {
     _end = data::Point(x, y);
+    CheckEnd();
+    Initialize();
 }
 
 #pragma endregion
@@ -76,11 +86,63 @@ void mg::MazeGenerator::SetEnd(int x, int y) {
 /// <summary>
 /// Иннициализация лабиринта - создание всех ячеек
 /// </summary>
-void mg::MazeGenerator::InitializeMaze() {
+void mg::MazeGenerator::Initialize() {
     for (size_t y = 0; y < _size.height; y++) {
         for (size_t x = 0; x < _size.width; x++) {
             _maze[y][x] = Cell(data::Point(static_cast<int>(x), static_cast<int>(y)), data::WallStates(), data::CellType::Default, false);
         }
+    }
+}
+
+/// <summary>
+/// Изменение размера лабиринта
+/// </summary>
+void mg::MazeGenerator::Resize() {
+    _maze.resize(_size.height, std::vector<Cell>(_size.width));
+
+    for (auto& row : _maze) {
+        row.resize(_size.width);
+    }
+
+    CheckStart();
+    CheckEnd();
+}
+
+/// <summary>
+/// Проверка выхода начальной точки за границы лабиринта
+/// </summary>
+void mg::MazeGenerator::CheckStart() {
+    if (_start.x < 0) {
+        _start.x = 0;
+    }
+    else if (_start.x >= _size.width) {
+        _start.x = _size.width - 1;
+    }
+
+    if (_start.y < 0) {
+        _start.y = 0;
+    }
+    else if (_start.y >= _size.height) {
+        _start.y = _size.height - 1;
+    }
+}
+
+/// <summary>
+/// Проверка выхода конечной точки за границы лабиринта
+/// </summary>
+void mg::MazeGenerator::CheckEnd() {
+    if (_end.x < 0) {
+        _end.x = 0;
+    }
+    else if (_end.x >= _size.width) {
+        _end.x = _size.width - 1;
+    }
+
+    if (_end.y < 0) {
+        _end.y = 0;
+    }
+    else if (_end.y >= _size.height) {
+        _end.y = _size.height - 1;
     }
 }
 
@@ -90,7 +152,7 @@ void mg::MazeGenerator::InitializeMaze() {
 void mg::MazeGenerator::Generate() {
     std::mt19937 rng;
     _useUserSeed ? rng.seed(_seed) : rng.seed(GenerateSeed());
-    InitializeMaze();
+    Initialize();
 
     std::vector<std::pair<size_t, size_t>> walls;
 

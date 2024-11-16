@@ -76,6 +76,7 @@ void view::MazeView::DrawRectangleCenteredAt(const sf::Vector2f& position, const
 /// Отрисовка лабиринта
 /// </summary>
 void view::MazeView::Render() {
+    UpdateCellSize();
     sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, (float)_thickness));
     wallShape.setFillColor(_borderColor);
 
