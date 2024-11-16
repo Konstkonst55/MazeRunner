@@ -3,7 +3,7 @@
 #ifndef WALL_STATE_H
 #define WALL_STATE_H
 
-namespace mg {
+namespace mg::data {
 	/// <summary>
 	/// Перечисление типа состояния стены
 	/// <para> Open = 1 - открыта </para>

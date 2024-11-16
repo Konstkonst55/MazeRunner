@@ -16,36 +16,48 @@
     <Filter Include="Файлы заголовков\data">
       <UniqueIdentifier>{c8925cfb-46b8-4b36-9c12-22f904237066}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\data">
+      <UniqueIdentifier>{3831fef4-2fa7-45f8-96fc-d04e3bb45ff7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WallStates.h">
+    <ClInclude Include="wall_states.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
-    <ClInclude Include="WallState.h">
+    <ClInclude Include="wall_state.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
-    <ClInclude Include="MazeGenerator.h">
+    <ClInclude Include="maze_generator.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="MazeSize.h">
+    <ClInclude Include="maze_size.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
-    <ClInclude Include="CellType.h">
+    <ClInclude Include="cell_type.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MazeGenerator.cpp">
+    <ClCompile Include="maze_generator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Point.h">
+    <ClCompile Include="point.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.h">
+    <ClCompile Include="cell.h">
       <Filter>Файлы заголовков</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
+    <ClCompile Include="cell.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="maze_size.cpp">
+      <Filter>Исходные файлы\data</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Исходные файлы\data</Filter>
+    </ClCompile>
+    <ClCompile Include="wall_states.cpp">
+      <Filter>Исходные файлы\data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

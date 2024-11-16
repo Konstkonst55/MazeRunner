@@ -4,8 +4,8 @@
 #define MAZE_GENERATOR_H
 
 #include <vector>
-#include "Cell.h"
-#include "MazeSize.h"
+#include "cell.h"
+#include "maze_size.h"
 
 namespace mg {
 	/// <summary>
@@ -19,28 +19,31 @@ namespace mg {
 	private:
 		unsigned int _seed;
 		bool _useUserSeed = false;
-		MazeSize _size = MazeSize();
+		data::MazeSize _size = data::MazeSize();
 		std::vector<std::vector<Cell>> _maze;
-		mg::Point _start = mg::Point();
-		mg::Point _end = mg::Point();
+		data::Point _start = data::Point();
+		data::Point _end = data::Point();
 
-		void MazeInit();
-		int FindRoot(std::vector<int>&, int);
+		void InitializeMaze();
+		size_t FindRoot(const std::vector<size_t>& parent, size_t it);
 		unsigned int GenerateSeed();
 
 	public:
 		MazeGenerator();
-		MazeGenerator(unsigned int);
-		MazeGenerator(MazeSize);
-		MazeGenerator(unsigned int, MazeSize);
+		MazeGenerator(unsigned int seed);
+		MazeGenerator(const data::MazeSize& size);
+		MazeGenerator(unsigned int seed, const data::MazeSize& size);
 
 		const unsigned int GetSeed() const;
-		const MazeSize& GetSize() const;
+		const data::MazeSize& GetSize() const;
 		const std::vector<std::vector<Cell>>& GetMaze() const;
-		void SetSeed(unsigned int);
-		void SetSize(const MazeSize&S);
-		void SetStart(const mg::Point&);
-		void SetEnd(const mg::Point&);
+		void SetSeed(unsigned int seed);
+		void SetSize(const data::MazeSize& size);
+		void SetSize(size_t width, size_t height);
+		void SetStart(const data::Point& start);
+		void SetStart(int x, int y);
+		void SetEnd(const data::Point& end);
+		void SetEnd(int x, int y);
 
 		void Generate();
 	};

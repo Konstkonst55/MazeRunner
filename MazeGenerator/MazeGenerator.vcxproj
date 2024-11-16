@@ -141,17 +141,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CellType.h" />
-    <ClInclude Include="MazeGenerator.h" />
-    <ClInclude Include="MazeSize.h" />
-    <ClInclude Include="WallState.h" />
-    <ClInclude Include="WallStates.h" />
+    <ClInclude Include="cell_type.h" />
+    <ClInclude Include="maze_generator.h" />
+    <ClInclude Include="maze_size.h" />
+    <ClInclude Include="wall_state.h" />
+    <ClInclude Include="wall_states.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="Cell.h" />
-    <ClCompile Include="MazeGenerator.cpp" />
-    <ClCompile Include="Point.h" />
+    <ClCompile Include="cell.cpp" />
+    <ClCompile Include="cell.h" />
+    <ClCompile Include="maze_generator.cpp" />
+    <ClCompile Include="maze_size.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="point.h" />
+    <ClCompile Include="wall_states.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

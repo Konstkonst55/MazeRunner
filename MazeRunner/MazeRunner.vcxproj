@@ -139,10 +139,10 @@
     <ClCompile Include="main.cpp">
       <UseUnicodeForAssemblerListing Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</UseUnicodeForAssemblerListing>
     </ClCompile>
-    <ClCompile Include="MazeView.cpp" />
+    <ClCompile Include="maze_view.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MazeView.h" />
+    <ClInclude Include="maze_view.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazeGenerator\MazeGenerator.vcxproj">

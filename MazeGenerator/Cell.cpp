@@ -1,23 +1,9 @@
-
-#include "Cell.h"
-#include <iostream>
+#include "cell.h"
 #include <format>
 
 #pragma region CellConstructor
 
-mg::Cell::Cell()
-	: Cell(Point(0, 0)) { }
-
-mg::Cell::Cell(Point position)
-	: Cell(position, WallStates()) { }
-
-mg::Cell::Cell(Point position, WallStates walls)
-	: Cell(position, walls, false) { }
-
-mg::Cell::Cell(Point position, WallStates walls, bool visited)
-	: Cell(position, walls, Default, visited) { }
-
-mg::Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
+mg::Cell::Cell(data::Point position, data::WallStates walls, data::CellType type, bool visited)
 	: _position(position), _walls(walls), _type(type), _visited(visited) { }
 
 #pragma endregion
@@ -25,54 +11,64 @@ mg::Cell::Cell(Point position, WallStates walls, CellType type, bool visited)
 #pragma region CellOperators
 
 const bool mg::Cell::operator==(const mg::Cell& cell) const {
-	return _position == cell.GetPosition()
-		&& _walls == cell.GetWalls()
-		&& _type == cell.GetType()
-		&& _visited == cell.IsVisited();
+	return _position == cell._position
+		&& _walls == cell._walls
+		&& _type == cell._type
+		&& _visited == cell._visited;
 }
 
 #pragma endregion
 
 #pragma region CellGetSet
 
-const mg::Point& mg::Cell::GetPosition() const {
+const mg::data::Point& mg::Cell::GetPosition() const {
 	return _position;
 }
 
-const mg::WallStates& mg::Cell::GetWalls() const {
+const mg::data::WallStates& mg::Cell::GetWalls() const {
 	return _walls;
 }
 
-const mg::CellType& mg::Cell::GetType() const {
+const mg::data::CellType& mg::Cell::GetType() const {
 	return _type;
 }
 
-const bool mg::Cell::IsVisited() const {
+bool mg::Cell::IsVisited() const {
 	return _visited;
 }
 
-void mg::Cell::SetPosition(Point point) {
+void mg::Cell::SetPosition(const data::Point& point) {
 	_position = point;
 }
 
-void mg::Cell::SetWalls(WallStates walls) {
+void mg::Cell::SetPosition(int x, int y) {
+	_position = data::Point(x, y);
+}
+
+void mg::Cell::SetWalls(const data::WallStates& walls) {
 	_walls = walls;
 }
 
-void mg::Cell::SetWallState(int id, WallState state) {
-	WallState* walls[] = { &_walls.top, &_walls.right, &_walls.bottom, &_walls.left };
+/// <summary>
+/// Устновка состояния стены по ее id
+/// <para>(0 - top, 1 - right, 2 - bottom, 3 - left)</para> 
+/// </summary>
+/// <param name="id">Идентификатор стены</param>
+/// <param name="state">Устанавливаемое состояние</param>
+void mg::Cell::SetWallState(short id, const data::WallState& state) {
+ 	data::WallState* walls[] = { &_walls.top, &_walls.right, &_walls.bottom, &_walls.left };
 
 	if (id >= 0 && id < 4) {
 		*walls[id] = state;
 	}
 }
 
-void mg::Cell::SetType(CellType type) {
+void mg::Cell::SetType(const data::CellType& type) {
 	_type = type;
 }
 
-void mg::Cell::SetVisitedState(bool visitedState) {
-	_visited = visitedState;
+void mg::Cell::SetVisitedState(bool visited) {
+	_visited = visited;
 }
 
 #pragma endregion
@@ -80,14 +76,20 @@ void mg::Cell::SetVisitedState(bool visitedState) {
 #pragma region CellLogic
 
 /// <summary>
-/// Печать ячейки в консоль в формате t: _ r: _ b: _ l: _ v: _ tp: _ p: [ _ ; _ ]
+/// Возвращает строку в формате [walls: ( {}; {}; {}; {} )], [visited: {}], [type: {}], [position: ( {}; {} )]
 /// </summary>
-void mg::Cell::Print() {
-	std::cout << std::format("t: {} r: {} b: {} l: {} v: {} tp: {} p: [ {} ; {} ]",
-		(int)_walls.top, (int)_walls.right, (int)_walls.bottom,
-		(int)_walls.left, _visited ? 1 : 0, (int)_type,
-		_position.x, _position.y)
-		<< std::endl;
+const std::string mg::Cell::ToString() const {
+	return std::format(
+		"[walls: ( {}; {}; {}; {} )], [visited: {}], [type: {}], [position: ( {}; {} )]",
+		static_cast<int>(_walls.top),
+		static_cast<int>(_walls.right),
+		static_cast<int>(_walls.bottom),
+		static_cast<int>(_walls.left),
+		_visited ? 1 : 0,
+		static_cast<int>(_type),
+		_position.x,
+		_position.y
+	);
 }
 
 #pragma endregion

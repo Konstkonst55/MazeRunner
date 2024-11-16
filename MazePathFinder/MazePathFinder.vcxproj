@@ -145,10 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MazePathFinder.cpp" />
+    <ClCompile Include="maze_path_finder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MazePathFinder.h" />
+    <ClInclude Include="maze_path_finder.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazeGenerator\MazeGenerator.vcxproj">

@@ -3,7 +3,7 @@
 #ifndef POINT_H
 #define POINT_H
 
-namespace mg {
+namespace mg::data {
 	/// <summary>
 	/// Точка на плоскости
 	/// <para> int x </para>
@@ -13,12 +13,9 @@ namespace mg {
 		int x;
 		int y;
 
-		Point() : x(0), y(0) { }
-		Point(int x, int y) : x(x), y(y) { }
+		Point(int x = 0, int y = 0);
 
-		const bool operator==(const Point& point) const {
-			return this->x == point.x && this->y == point.y;
-		}
+		const bool operator==(const Point& point) const;
 	};
 }
 

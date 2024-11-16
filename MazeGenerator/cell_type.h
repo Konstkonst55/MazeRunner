@@ -3,7 +3,7 @@
 #ifndef CELL_TYPE_H
 #define CELL_TYPE_H
 
-namespace mg {
+namespace mg::data {
 	/// <summary>
 	/// Перечисление типа ячейки
 	/// <para> End = 0 - конец </para>

@@ -3,9 +3,12 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "Point.h"
-#include "WallStates.h"
-#include "CellType.h"
+#include <ostream>
+#include <iostream>
+
+#include "point.h"
+#include "wall_states.h"
+#include "cell_type.h"
 
 namespace mg {
 	/// <summary>
@@ -17,31 +20,28 @@ namespace mg {
 	/// </summary>
 	class Cell {
 	private:
-		Point _position;
-		WallStates _walls;
-		CellType _type = Default;
+		data::Point _position;
+		data::WallStates _walls;
+		data::CellType _type = data::CellType::Default;
 		bool _visited = false;
 
 	public:
-		Cell();
-		Cell(Point);
-		Cell(Point, WallStates);
-		Cell(Point, WallStates, bool);
-		Cell(Point, WallStates, CellType, bool);
+		Cell(data::Point = data::Point(), data::WallStates = data::WallStates(), data::CellType = data::CellType::Default, bool visited = false);
 
 		const bool operator==(const Cell&) const;
 
-		const Point& GetPosition() const;
-		const WallStates& GetWalls() const;
-		const CellType& GetType() const;
-		const bool IsVisited() const;
-		void SetPosition(Point);
-		void SetWalls(WallStates);
-		void SetWallState(int, WallState);
-		void SetType(CellType);
-		void SetVisitedState(bool);
+		const data::Point& GetPosition() const;
+		const data::WallStates& GetWalls() const;
+		const data::CellType& GetType() const;
+		bool IsVisited() const;
+		void SetPosition(const data::Point& point);
+		void SetPosition(int x, int y);
+		void SetWalls(const data::WallStates& walls);
+		void SetWallState(short id, const data::WallState& state);
+		void SetType(const data::CellType& type);
+		void SetVisitedState(bool visited);
 
-		void Print();
+		const std::string ToString() const;
 	};
 }
 

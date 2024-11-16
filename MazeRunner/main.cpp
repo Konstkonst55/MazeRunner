@@ -1,8 +1,7 @@
-
 #include <SFML/Graphics.hpp>
-#include <MazeGenerator.h>
-#include <MazePathFinder.h>
-#include "MazeView.h"
+#include <maze_generator.h>
+#include <maze_path_finder.h>
+#include "maze_view.h"
 #include <string>
 
 void Regenerate(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
@@ -13,31 +12,29 @@ int main() {
     const sf::Color 
         borderColor             = sf::Color::White,
         pathColor               = sf::Color::Green;
-    const unsigned int
-        mazeWidth               = 20,
-        mazeHeight              = 20,
-        winWidth                = 800,
-        winHeight               = 800,
-        borderThickness         = 1,
-        borderMargin            = 10;
-    const mg::Point 
-        start                   = mg::Point(0, 0),
-        end                     = mg::Point(mazeHeight - 1, mazeWidth - 1);
-
-    //const mg::Point
-    //    start = mg::Point(2, 10),
-    //    end = mg::Point(8, 5);
+    const size_t 
+        mazeWidth               = 30u,
+        mazeHeight              = 30u,
+        winWidth                = 800u,
+        winHeight               = 800u,
+        borderThickness         = 1u,
+        borderMargin            = 10u;
+    const mg::data::Point 
+        start                   = mg::data::Point(0, 0),
+        end                     = mg::data::Point(static_cast<int>(mazeHeight - 1), static_cast<int>(mazeWidth - 1));
 
     sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), appName);
-    mg::MazeGenerator mazeGen(mg::MazeSize(mazeWidth, mazeHeight));
+    mg::MazeGenerator mazeGen(mg::data::MazeSize(mazeWidth, mazeHeight));
     mazeGen.SetStart(start);
     mazeGen.SetEnd(end);
     mazeGen.Generate();
+    auto maze = mazeGen.GetMaze();
 
-    mpf::MazePathFinder mazePathFinder(mazeGen.GetMaze());
+    mpf::MazePathFinder mazePathFinder(maze);
     mazePathFinder.FindPath();
+    auto path = mazePathFinder.GetPath();
 
-    view::MazeView mazeView(mazeGen.GetMaze(), mazePathFinder.GetPath(), window, borderColor, pathColor, borderThickness, borderMargin);
+    view::MazeView mazeView(maze, window, path, borderColor, pathColor, borderMargin, borderThickness);
     Redraw(mazeGen, mazePathFinder, mazeView);
     window.display();
 
@@ -69,12 +66,14 @@ int main() {
 
 void Regenerate(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
     mazeGen.Generate();
+    auto maze = mazeGen.GetMaze();
+    mazePathFinder.SetMaze(maze);
 
-    mazePathFinder.SetMaze(mazeGen.GetMaze());
     mazePathFinder.FindPath();
+    auto path = mazePathFinder.GetPath();
 
-    mazeView.SetMaze(mazeGen.GetMaze());
-    mazeView.SetPath(mazePathFinder.GetPath());
+    mazeView.SetMaze(maze);
+    mazeView.SetPath(path);
 }
 
 void Redraw(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView){
