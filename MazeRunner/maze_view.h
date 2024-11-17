@@ -4,7 +4,7 @@
 #define MAZE_VIEW_H
 
 #include <vector>
-#include <cell.h>
+#include <maze.h>
 #include <SFML/Graphics.hpp>
 
 namespace view {
@@ -19,7 +19,7 @@ namespace view {
 	/// </summary>
 	class MazeView {
 	private:
-		std::vector<std::vector<mg::Cell>>& _maze;
+		mg::Maze& _maze;
 		sf::RenderWindow& _window;
 		std::vector<mg::data::Point>& _path;
 		sf::Color _borderColor = sf::Color::White;
@@ -32,11 +32,11 @@ namespace view {
 		void DrawRectangleCenteredAt(const sf::Vector2f& position, const sf::Color& color);
 
 	public:
-		MazeView(std::vector<std::vector<mg::Cell>>& maze, sf::RenderWindow& window, std::vector<mg::data::Point>& path, const sf::Color& borderColor = sf::Color::White, const sf::Color& pathColor = sf::Color::Green, size_t border = 10, size_t thickness = 2);
+		MazeView(mg::Maze& maze, sf::RenderWindow& window, std::vector<mg::data::Point>& path, const sf::Color& borderColor = sf::Color::White, const sf::Color& pathColor = sf::Color::Green, size_t border = 10, size_t thickness = 2);
 
 		const size_t GetBorder() const;
 		const size_t GetThickness() const;
-		void SetMaze(const std::vector<std::vector<mg::Cell>>& maze);
+		void SetMaze(const mg::Maze& maze);
 		void SetPath(const std::vector<mg::data::Point>& path);
 		void SetBorderColor(const sf::Color& borderColor);
 		void SetPathColor(const sf::Color& pathColor);

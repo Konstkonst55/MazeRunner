@@ -36,6 +36,9 @@
     <ClInclude Include="cell_type.h">
       <Filter>Файлы заголовков\data</Filter>
     </ClInclude>
+    <ClInclude Include="kruskal_generator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="maze_generator.cpp">
@@ -63,6 +66,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClCompile>
     <ClCompile Include="maze.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="kruskal_generator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

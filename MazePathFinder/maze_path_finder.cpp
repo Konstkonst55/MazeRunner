@@ -2,7 +2,7 @@
 
 #pragma region MazePathFinderConstructor
 
-mpf::MazePathFinder::MazePathFinder(std::vector<std::vector<mg::Cell>>& maze) : _maze(maze) { }
+mpf::MazePathFinder::MazePathFinder(mg::Maze& maze) : _maze(maze) { }
 
 #pragma endregion
 
@@ -12,7 +12,7 @@ const std::vector<mg::data::Point>& mpf::MazePathFinder::GetPath() const {
     return _path;
 }
 
-void mpf::MazePathFinder::SetMaze(const std::vector<std::vector<mg::Cell>>& maze) {
+void mpf::MazePathFinder::SetMaze(const mg::Maze& maze) {
     _maze = maze;
 }
 
@@ -55,7 +55,7 @@ const bool mpf::MazePathFinder::DepthFirstSearch(const mg::data::Point& current,
     for (const auto& dir : directions) {
         mg::data::Point next = { current.x + dir.x, current.y + dir.y };
 
-        if (next.x < 0 || next.x >= _maze.size() || next.y < 0 || next.y >= _maze[0].size()) {
+        if (next.x < 0 || next.x >= _maze.GetMaze().size() || next.y < 0 || next.y >= _maze[0].size()) {
             continue;
         }
 
@@ -80,26 +80,13 @@ const bool mpf::MazePathFinder::DepthFirstSearch(const mg::data::Point& current,
 /// Поиск пути в лабиринте
 /// </summary>
 void mpf::MazePathFinder::FindPath() {
-    if (_maze.empty() || _maze[0].empty()) {
+    if (_maze.GetMaze().empty() || _maze[0].empty()) {
         return;
     }
 
     _path.clear();
 
-    mg::data::Point start, end;
-
-    for (const auto& row : _maze) {
-        for (const auto& cell : row) {
-            if (cell.GetType() == mg::data::Start) {
-                start = cell.GetPosition();
-            }
-            else if (cell.GetType() == mg::data::End) {
-                end = cell.GetPosition();
-            }
-        }
-    }
-
-    DepthFirstSearch(start, end);
+    DepthFirstSearch(_maze.GetStart(), _maze.GetEnd());
 }
 
 #pragma endregion

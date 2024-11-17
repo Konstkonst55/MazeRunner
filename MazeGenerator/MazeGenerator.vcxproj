@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cell_type.h" />
+    <ClInclude Include="kruskal_generator.h" />
     <ClInclude Include="maze_generator.h" />
     <ClInclude Include="maze_size.h" />
     <ClInclude Include="wall_state.h" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="cell.h" />
+    <ClCompile Include="kruskal_generator.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="maze.h" />
     <ClCompile Include="maze_generator.cpp" />

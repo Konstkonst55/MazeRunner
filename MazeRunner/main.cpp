@@ -1,11 +1,12 @@
-#include <SFML/Graphics.hpp>
-#include <maze_generator.h>
-#include <maze_path_finder.h>
 #include "maze_view.h"
+
+#include <SFML/Graphics.hpp>
+#include <kruskal_generator.h>
+#include <maze_path_finder.h>
 #include <string>
 
-void Regenerate(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
-void Redraw(mg::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
+void Regenerate(mg::gen::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
+void Redraw(mg::gen::MazeGenerator&, mpf::MazePathFinder&, view::MazeView&);
 
 int main() {
     const std::string appName   = "Maze Runner";
@@ -24,11 +25,11 @@ int main() {
         end                     = mg::data::Point(static_cast<int>(mazeHeight - 1), static_cast<int>(mazeWidth - 1));
 
     sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), appName);
-    mg::MazeGenerator mazeGen(mg::data::MazeSize(mazeWidth, mazeHeight));
-    mazeGen.SetStart(start);
-    mazeGen.SetEnd(end);
+    mg::gen::KruskalMazeGenerator mazeGen(mg::data::MazeSize(mazeWidth, mazeHeight));
+    mg::Maze& maze = mazeGen.GetMaze();
+    maze.SetStart(start);
+    maze.SetEnd(end);
     mazeGen.Generate();
-    auto maze = mazeGen.GetMaze();
 
     mpf::MazePathFinder mazePathFinder(maze);
     mazePathFinder.FindPath();
@@ -45,7 +46,7 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            
+
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 window.clear();
                 Regenerate(mazeGen, mazePathFinder, mazeView);
@@ -64,19 +65,18 @@ int main() {
     return 0;
 }
 
-void Regenerate(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
+void Regenerate(mg::gen::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
     mazeGen.Generate();
     auto maze = mazeGen.GetMaze();
-    mazePathFinder.SetMaze(maze);
+    mazePathFinder.SetMaze(mazeGen.GetMaze());
 
     mazePathFinder.FindPath();
-    auto path = mazePathFinder.GetPath();
 
     mazeView.SetMaze(maze);
-    mazeView.SetPath(path);
+    mazeView.SetPath(mazePathFinder.GetPath());
 }
 
-void Redraw(mg::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView){
+void Redraw(mg::gen::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView){
     mazeView.Render();
     mazeView.RenderPath();
 }

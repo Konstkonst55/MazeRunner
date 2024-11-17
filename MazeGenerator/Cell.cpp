@@ -1,19 +1,18 @@
 #include "cell.h"
+
 #include <format>
 
 #pragma region CellConstructor
 
-mg::Cell::Cell(data::Point position, data::WallStates walls, data::CellType type, bool visited)
-	: _position(position), _walls(walls), _type(type), _visited(visited) { }
+mg::Cell::Cell(data::WallStates walls, bool visited)
+	: _walls(walls), _visited(visited) { }
 
 #pragma endregion
 
 #pragma region CellOperators
 
 const bool mg::Cell::operator==(const mg::Cell& cell) const {
-	return _position == cell._position
-		&& _walls == cell._walls
-		&& _type == cell._type
+	return _walls == cell._walls
 		&& _visited == cell._visited;
 }
 
@@ -21,28 +20,12 @@ const bool mg::Cell::operator==(const mg::Cell& cell) const {
 
 #pragma region CellGetSet
 
-const mg::data::Point& mg::Cell::GetPosition() const {
-	return _position;
-}
-
 const mg::data::WallStates& mg::Cell::GetWalls() const {
 	return _walls;
 }
 
-const mg::data::CellType& mg::Cell::GetType() const {
-	return _type;
-}
-
 bool mg::Cell::IsVisited() const {
 	return _visited;
-}
-
-void mg::Cell::SetPosition(const data::Point& point) {
-	_position = point;
-}
-
-void mg::Cell::SetPosition(int x, int y) {
-	_position = data::Point(x, y);
 }
 
 void mg::Cell::SetWalls(const data::WallStates& walls) {
@@ -63,10 +46,6 @@ void mg::Cell::SetWallState(short id, const data::WallState& state) {
 	}
 }
 
-void mg::Cell::SetType(const data::CellType& type) {
-	_type = type;
-}
-
 void mg::Cell::SetVisitedState(bool visited) {
 	_visited = visited;
 }
@@ -76,19 +55,16 @@ void mg::Cell::SetVisitedState(bool visited) {
 #pragma region CellLogic
 
 /// <summary>
-/// Возвращает строку в формате [walls: ( {}; {}; {}; {} )], [visited: {}], [type: {}], [position: ( {}; {} )]
+/// Возвращает строку в формате [walls: ( {}; {}; {}; {} )], [visited: {}]
 /// </summary>
 const std::string mg::Cell::ToString() const {
 	return std::format(
-		"[walls: ( {}; {}; {}; {} )], [visited: {}], [type: {}], [position: ( {}; {} )]",
+		"[walls: ( {}; {}; {}; {} )], [visited: {}]",
 		static_cast<int>(_walls.top),
 		static_cast<int>(_walls.right),
 		static_cast<int>(_walls.bottom),
 		static_cast<int>(_walls.left),
-		_visited ? 1 : 0,
-		static_cast<int>(_type),
-		_position.x,
-		_position.y
+		_visited ? 1 : 0
 	);
 }
 

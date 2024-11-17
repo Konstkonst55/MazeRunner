@@ -1,9 +1,10 @@
 #include "maze_view.h"
+
 #include <iostream>
 
 #pragma region MazeViewConstructor
 
-view::MazeView::MazeView(std::vector<std::vector<mg::Cell>>& maze, sf::RenderWindow& window, std::vector<mg::data::Point>& path, const sf::Color& borderColor, const sf::Color& pathColor, size_t border, size_t thickness)
+view::MazeView::MazeView(mg::Maze& maze, sf::RenderWindow& window, std::vector<mg::data::Point>& path, const sf::Color& borderColor, const sf::Color& pathColor, size_t border, size_t thickness)
     : _maze(maze), _window(window), _path(path), _borderColor(borderColor), _pathColor(pathColor), _border(border), _thickness(thickness) {
     UpdateCellSize();
 }
@@ -20,12 +21,14 @@ const size_t view::MazeView::GetThickness() const {
     return _thickness;
 }
 
-void view::MazeView::SetMaze(const std::vector<std::vector<mg::Cell>>& maze) {
+void view::MazeView::SetMaze(const mg::Maze& maze) {
     _maze = maze;
+    UpdateCellSize();
 }
 
 void view::MazeView::SetPath(const std::vector<mg::data::Point>& path) {
     _path = path;
+    UpdateCellSize();
 }
 
 void view::MazeView::SetBorderColor(const sf::Color& borderColor) {
@@ -54,7 +57,7 @@ void view::MazeView::SetThickness(size_t thickness) {
 void view::MazeView::UpdateCellSize() {
     _cellSize = {
         ((float)_window.getSize().x - _border * 2) / (float)_maze[0].size(),
-        ((float)_window.getSize().y - _border * 2) / (float)_maze.size()
+        ((float)_window.getSize().y - _border * 2) / (float)_maze.GetMaze().size()
     };
 }
 
@@ -76,19 +79,19 @@ void view::MazeView::DrawRectangleCenteredAt(const sf::Vector2f& position, const
 /// Отрисовка лабиринта
 /// </summary>
 void view::MazeView::Render() {
-    UpdateCellSize();
     sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, (float)_thickness));
     wallShape.setFillColor(_borderColor);
 
-    for (const auto& row : _maze) {
-        for (const auto& cell : row) {
-            mg::data::Point position = cell.GetPosition();
+    for (size_t row = 0; row < _maze.GetMaze().size(); row++) {
+        for (size_t col = 0; col < _maze[0].size(); col++) {
+            const auto& cell = _maze[row][col];
+            sf::Vector2f position(col, row);
 
-            if (cell.GetType() == mg::data::Start) {
+            if (position == sf::Vector2f((float)_maze.GetStart().x, (float)_maze.GetStart().y)) {
                 DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border), sf::Color::Green);
             }
 
-            if (cell.GetType() == mg::data::End) {
+            if (position == sf::Vector2f((float)_maze.GetEnd().x, (float)_maze.GetEnd().y)) {
                 DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border), sf::Color::Red);
             }
 
