@@ -15,6 +15,7 @@ namespace mg::data {
 		size_t height;
 
 		MazeSize(size_t width = 25u, size_t height = 25u);
+		~MazeSize() = default;
 
 		const bool operator==(const MazeSize& size) const;
 	};

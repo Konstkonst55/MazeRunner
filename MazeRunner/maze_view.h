@@ -32,7 +32,9 @@ namespace view {
 		void DrawRectangleCenteredAt(const sf::Vector2f& position, const sf::Color& color);
 
 	public:
+		MazeView() = default;
 		MazeView(mg::Maze& maze, sf::RenderWindow& window, std::vector<mg::data::Point>& path, const sf::Color& borderColor = sf::Color::White, const sf::Color& pathColor = sf::Color::Green, size_t border = 10, size_t thickness = 2);
+		~MazeView() = default;
 
 		const size_t GetBorder() const;
 		const size_t GetThickness() const;

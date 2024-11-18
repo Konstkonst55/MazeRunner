@@ -23,6 +23,7 @@ namespace mg {
 
 	public:
 		Cell(data::WallStates = data::WallStates(), bool visited = false);
+		~Cell() = default;
 
 		const bool operator==(const Cell&) const;
 

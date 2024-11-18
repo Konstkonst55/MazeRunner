@@ -15,12 +15,13 @@ namespace mg::data {
 	/// <para> По умолчанию все стены закрыты </para>
 	/// </summary>
 	struct WallStates {
-		WallState top = WallState::Close;
-		WallState right = WallState::Close;
-		WallState bottom = WallState::Close;
-		WallState left = WallState::Close;
+		WallState top;
+		WallState right;
+		WallState bottom;
+		WallState left;
 
 		WallStates(WallState top = WallState::Close, WallState right = WallState::Close, WallState bottom = WallState::Close, WallState left = WallState::Close);
+		~WallStates() = default;
 
 		const bool operator==(const WallStates& walls) const;
 	};

@@ -21,13 +21,14 @@ namespace mg::gen {
 		unsigned int _seed;
 		bool _useUserSeed = false;
 
-		unsigned int GenerateSeed();
+		virtual unsigned int GenerateSeed();
 
 	public:
 		MazeGenerator();
 		MazeGenerator(unsigned int seed);
 		MazeGenerator(const data::MazeSize& size);
 		MazeGenerator(unsigned int seed, const data::MazeSize& size);
+		~MazeGenerator() = default;
 
 		const unsigned int GetSeed() const;
 		const Maze& GetMaze() const;

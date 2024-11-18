@@ -14,6 +14,7 @@ namespace mg::data {
 		int y;
 
 		Point(int x = 0, int y = 0);
+		~Point() = default;
 
 		const bool operator==(const Point& point) const;
 	};

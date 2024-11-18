@@ -26,6 +26,7 @@ namespace mg {
 
 	public:
 		Maze(const data::MazeSize& size = data::MazeSize());
+		~Maze() = default;
 		
 		const data::MazeSize& GetSize() const;
 		const std::vector<std::vector<Cell>>& GetMaze() const;

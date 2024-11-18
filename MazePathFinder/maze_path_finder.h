@@ -16,7 +16,9 @@ namespace mpf {
 		const bool CanMove(const mg::data::Point& from, const mg::data::Point& to);
 
 	public:
+		MazePathFinder() = default;
 		MazePathFinder(mg::Maze& maze);
+		~MazePathFinder() = default;
 
 		const std::vector<mg::data::Point>& GetPath() const;
 		std::vector<mg::data::Point>& GetPath();
