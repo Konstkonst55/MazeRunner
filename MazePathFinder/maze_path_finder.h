@@ -19,6 +19,7 @@ namespace mpf {
 		MazePathFinder(mg::Maze& maze);
 
 		const std::vector<mg::data::Point>& GetPath() const;
+		std::vector<mg::data::Point>& GetPath();
 		void SetMaze(const mg::Maze& maze);
 
 		void FindPath();

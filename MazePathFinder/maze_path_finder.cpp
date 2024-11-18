@@ -12,6 +12,10 @@ const std::vector<mg::data::Point>& mpf::MazePathFinder::GetPath() const {
     return _path;
 }
 
+std::vector<mg::data::Point>& mpf::MazePathFinder::GetPath() {
+    return _path;
+}
+
 void mpf::MazePathFinder::SetMaze(const mg::Maze& maze) {
     _maze = maze;
 }

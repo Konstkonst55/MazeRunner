@@ -33,7 +33,7 @@ int main() {
 
     mpf::MazePathFinder mazePathFinder(maze);
     mazePathFinder.FindPath();
-    auto path = mazePathFinder.GetPath();
+    std::vector<mg::data::Point>& path = mazePathFinder.GetPath();
 
     view::MazeView mazeView(maze, window, path, borderColor, pathColor, borderMargin, borderThickness);
     Redraw(mazeGen, mazePathFinder, mazeView);
@@ -67,13 +67,7 @@ int main() {
 
 void Regenerate(mg::gen::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView) {
     mazeGen.Generate();
-    auto maze = mazeGen.GetMaze();
-    mazePathFinder.SetMaze(mazeGen.GetMaze());
-
     mazePathFinder.FindPath();
-
-    mazeView.SetMaze(maze);
-    mazeView.SetPath(mazePathFinder.GetPath());
 }
 
 void Redraw(mg::gen::MazeGenerator& mazeGen, mpf::MazePathFinder& mazePathFinder, view::MazeView& mazeView){

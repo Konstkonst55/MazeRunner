@@ -23,12 +23,10 @@ const size_t view::MazeView::GetThickness() const {
 
 void view::MazeView::SetMaze(const mg::Maze& maze) {
     _maze = maze;
-    UpdateCellSize();
 }
 
 void view::MazeView::SetPath(const std::vector<mg::data::Point>& path) {
     _path = path;
-    UpdateCellSize();
 }
 
 void view::MazeView::SetBorderColor(const sf::Color& borderColor) {
@@ -56,8 +54,8 @@ void view::MazeView::SetThickness(size_t thickness) {
 /// </summary>
 void view::MazeView::UpdateCellSize() {
     _cellSize = {
-        ((float)_window.getSize().x - _border * 2) / (float)_maze[0].size(),
-        ((float)_window.getSize().y - _border * 2) / (float)_maze.GetMaze().size()
+        (static_cast<float>(_window.getSize().x - _border * 2)) / static_cast<float>(_maze[0].size()),
+        (static_cast<float>(_window.getSize().y - _border * 2)) / static_cast<float>(_maze.GetMaze().size())
     };
 }
 
@@ -79,44 +77,44 @@ void view::MazeView::DrawRectangleCenteredAt(const sf::Vector2f& position, const
 /// Отрисовка лабиринта
 /// </summary>
 void view::MazeView::Render() {
-    sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, (float)_thickness));
+    sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, static_cast<float>(_thickness)));
     wallShape.setFillColor(_borderColor);
 
     for (size_t row = 0; row < _maze.GetMaze().size(); row++) {
         for (size_t col = 0; col < _maze[0].size(); col++) {
             const auto& cell = _maze[row][col];
-            sf::Vector2f position(col, row);
+            sf::Vector2f position(static_cast<float>(col), static_cast<float>(row));
 
             if (position == sf::Vector2f((float)_maze.GetStart().x, (float)_maze.GetStart().y)) {
-                DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border), sf::Color::Green);
+                DrawRectangleCenteredAt(sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border), sf::Color::Green);
             }
 
             if (position == sf::Vector2f((float)_maze.GetEnd().x, (float)_maze.GetEnd().y)) {
-                DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.y + _border, position.x * _cellSize.x + _border), sf::Color::Red);
+                DrawRectangleCenteredAt(sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border), sf::Color::Red);
             }
 
             if (cell.GetWalls().top == mg::data::WallState::Close) {
+                wallShape.setSize(sf::Vector2f(_cellSize.x, static_cast<float>(_thickness)));
                 wallShape.setPosition(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border);
                 _window.draw(wallShape);
             }
 
             if (cell.GetWalls().right == mg::data::WallState::Close) {
+                wallShape.setSize(sf::Vector2f(static_cast<float>(_thickness), _cellSize.y));
                 wallShape.setPosition((position.x + 1) * _cellSize.x + _border, position.y * _cellSize.y + _border);
-                wallShape.rotate(90);
                 _window.draw(wallShape);
-                wallShape.rotate(-90);
             }
 
             if (cell.GetWalls().bottom == mg::data::WallState::Close) {
+                wallShape.setSize(sf::Vector2f(_cellSize.x, static_cast<float>(_thickness)));
                 wallShape.setPosition(position.x * _cellSize.x + _border, (position.y + 1) * _cellSize.y + _border);
                 _window.draw(wallShape);
             }
 
             if (cell.GetWalls().left == mg::data::WallState::Close) {
+                wallShape.setSize(sf::Vector2f(static_cast<float>(_thickness), _cellSize.y));
                 wallShape.setPosition(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border);
-                wallShape.rotate(90);
                 _window.draw(wallShape);
-                wallShape.rotate(-90);
             }
         }
     }
@@ -127,11 +125,15 @@ void view::MazeView::Render() {
 /// </summary>
 void view::MazeView::RenderPath() {
     if (_path.empty()) return;
-    
+
     sf::VertexArray line(sf::PrimitiveType::LinesStrip, _path.size());
 
     for (size_t i = 0; i < _path.size(); i++) {
-        line[i].position = sf::Vector2f((float)(_path[i].y * _cellSize.y + _border + _cellSize.y / 2), (float)(_path[i].x * _cellSize.x + _border + _cellSize.x / 2));
+        line[i].position = sf::Vector2f(
+            static_cast<float>((_path[i].y * _cellSize.x + _border + _cellSize.x / 2)),
+            static_cast<float>((_path[i].x * _cellSize.y + _border + _cellSize.y / 2))
+        );
+
         line[i].color = _pathColor;
     }
 
