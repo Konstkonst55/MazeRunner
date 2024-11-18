@@ -1,5 +1,7 @@
 ﻿#include "maze_path_finder.h"
 
+#include <stdexcept>
+
 #pragma region MazePathFinderConstructor
 
 mpf::MazePathFinder::MazePathFinder(mg::Maze& maze) : _maze(maze) { }
@@ -85,7 +87,7 @@ const bool mpf::MazePathFinder::DepthFirstSearch(const mg::data::Point& current,
 /// </summary>
 void mpf::MazePathFinder::FindPath() {
     if (_maze.GetMaze().empty() || _maze[0].empty()) {
-        return;
+        throw std::runtime_error("Maze does not contain cells!");
     }
 
     _path.clear();

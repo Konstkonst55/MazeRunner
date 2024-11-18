@@ -1,8 +1,14 @@
 #include "maze.h"
 
+#include <stdexcept>
+
 #pragma region MazeConstructor
 
 mg::Maze::Maze(const data::MazeSize& size) : _size(size), _maze(size.height, std::vector<Cell>(size.width)) {
+    if (size.width <= 0 || size.height <= 0) {
+        throw std::out_of_range("Size must be greater than 0!");
+    }
+
     Initialize();
     _start = data::Point(0, 0);
     _end = data::Point(static_cast<int>(_size.height - 1), static_cast<int>(_size.width - 1));
@@ -29,12 +35,20 @@ const mg::data::Point& mg::Maze::GetEnd() const {
 }
 
 void mg::Maze::SetSize(const data::MazeSize& size) {
+    if (size.width <= 0 || size.height <= 0) {
+        throw std::out_of_range("Size must be greater than 0!");
+    }
+
     _size = size;
     Resize();
     Initialize();
 }
 
 void mg::Maze::SetSize(size_t width, size_t height) {
+    if (width <= 0 || height <= 0) {
+        throw std::out_of_range("Size must be greater than 0!");
+    }
+
     _size = data::MazeSize(width, height);
     Resize();
     Initialize();

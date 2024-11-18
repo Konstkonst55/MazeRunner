@@ -1,6 +1,7 @@
 #include "maze_view.h"
 
 #include <iostream>
+#include <stdexcept>
 
 #pragma region MazeViewConstructor
 
@@ -77,6 +78,10 @@ void view::MazeView::DrawRectangleCenteredAt(const sf::Vector2f& position, const
 /// Отрисовка лабиринта
 /// </summary>
 void view::MazeView::Render() {
+    if (_maze.GetMaze().empty() || _maze[0].empty()) {
+        throw std::runtime_error("Maze does not contain cells!");
+    }
+
     sf::RectangleShape wallShape(sf::Vector2f(_cellSize.x, static_cast<float>(_thickness)));
     wallShape.setFillColor(_borderColor);
 
@@ -86,11 +91,11 @@ void view::MazeView::Render() {
             sf::Vector2f position(static_cast<float>(col), static_cast<float>(row));
 
             if (position == sf::Vector2f((float)_maze.GetStart().x, (float)_maze.GetStart().y)) {
-                DrawRectangleCenteredAt(sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border), sf::Color::Green);
+                DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.x + _border, position.x * _cellSize.y + _border), sf::Color::Green);
             }
 
             if (position == sf::Vector2f((float)_maze.GetEnd().x, (float)_maze.GetEnd().y)) {
-                DrawRectangleCenteredAt(sf::Vector2f(position.x * _cellSize.x + _border, position.y * _cellSize.y + _border), sf::Color::Red);
+                DrawRectangleCenteredAt(sf::Vector2f(position.y * _cellSize.x + _border, position.x * _cellSize.y + _border), sf::Color::Red);
             }
 
             if (cell.GetWalls().top == mg::data::WallState::Close) {
@@ -124,7 +129,9 @@ void view::MazeView::Render() {
 /// Отрисовка пути
 /// </summary>
 void view::MazeView::RenderPath() {
-    if (_path.empty()) return;
+    if (_path.empty()) {
+        throw std::runtime_error("Path does not contain nodes!");
+    }
 
     sf::VertexArray line(sf::PrimitiveType::LinesStrip, _path.size());
 
