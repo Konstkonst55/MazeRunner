@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <kruskal_generator.h>
-#include <maze_path_finder.h>
+#include <dfs_path_finder.h>
 #include <string>
 
 void Regenerate(mg::gen::MazeGenerator& mazeGenerator, mpf::MazePathFinder& mazePathFinder);
@@ -32,7 +32,7 @@ int main() {
         maze.SetEnd(end);
         mazeGen.Generate();
 
-        mpf::MazePathFinder mazePathFinder(maze);
+        mpf::DFSPathFinder mazePathFinder(maze);
         mazePathFinder.FindPath();
         std::vector<mg::data::Point>& path = mazePathFinder.GetPath();
 

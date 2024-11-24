@@ -145,9 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dfs_path_finder.cpp" />
     <ClCompile Include="maze_path_finder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dfs_path_finder.h" />
     <ClInclude Include="maze_path_finder.h" />
   </ItemGroup>
   <ItemGroup>

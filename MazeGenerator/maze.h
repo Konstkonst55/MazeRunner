@@ -3,9 +3,10 @@
 #ifndef MAZE_H
 #define MAZE_H
 
-#include <vector>
 #include "cell.h"
 #include "maze_size.h"
+
+#include <vector>
 
 namespace mg {
 	namespace us {
@@ -13,6 +14,9 @@ namespace mg {
 		using constIterator = std::vector<std::vector<mg::Cell>>::const_iterator;
 	};
 
+	/// <summary>
+	/// Класс для работы с лабиринтом
+	/// </summary>
 	class Maze {
 	private:
 		std::vector<std::vector<Cell>> _maze;

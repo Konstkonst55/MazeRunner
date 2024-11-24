@@ -3,12 +3,12 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <ostream>
-#include <iostream>
-
 #include "point.h"
 #include "wall_states.h"
 #include "cell_type.h"
+
+#include <ostream>
+#include <iostream>
 
 namespace mg {
 	/// <summary>

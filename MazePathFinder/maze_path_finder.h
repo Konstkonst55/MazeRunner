@@ -7,13 +7,13 @@
 #include <maze.h>
 
 namespace mpf {
+	/// <summary>
+	/// Класс для поиска пути в лабиринте
+	/// </summary>
 	class MazePathFinder {
-	private:
+	protected:
 		mg::Maze& _maze;
-	    std::vector<mg::data::Point> _path;
-
-		const bool DepthFirstSearch(const mg::data::Point& current, const mg::data::Point& end);
-		const bool CanMove(const mg::data::Point& from, const mg::data::Point& to);
+		std::vector<mg::data::Point> _path;
 
 	public:
 		MazePathFinder() = default;
@@ -24,7 +24,7 @@ namespace mpf {
 		std::vector<mg::data::Point>& GetPath();
 		void SetMaze(const mg::Maze& maze);
 
-		void FindPath();
+		virtual void FindPath() = 0;
 	};
 }
 

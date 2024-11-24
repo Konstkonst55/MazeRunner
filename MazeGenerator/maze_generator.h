@@ -3,7 +3,6 @@
 #ifndef MAZE_GENERATOR_H
 #define MAZE_GENERATOR_H
 
-#include <vector>
 #include "cell.h"
 #include "maze_size.h"
 #include "maze.h"

@@ -18,9 +18,15 @@
     <ClCompile Include="maze_path_finder.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="dfs_path_finder.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="maze_path_finder.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="dfs_path_finder.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
